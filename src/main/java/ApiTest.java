@@ -24,29 +24,27 @@ public class ApiTest {
 //		https://crd.ndl.go.jp/api/refsearch?type=reference&query=question%20any 
 //		https://crd.ndl.go.jp/api/refsearch?type=reference&query=question%20all
         Document doc = api.convertStringToXMLDocument(response);
-        
         Element result_set = doc.getDocumentElement();
+        
         //resultタグ指定でNodelist取得
         NodeList results = result_set.getElementsByTagName("result");
         
-        //.item()で一件目のresultを取得
-        Element result = (Element)results.item(0);
-        //referenceタグ指定でElement取得
-        Element reference = (Element) result.getElementsByTagName("reference").item(0);  
-        
-        
-        Element questioneElement = (Element) reference.getElementsByTagName("question").item(0);
-        Element answereElement = (Element) reference.getElementsByTagName("answer").item(0);
-        Element libNameeElement = (Element) reference.getElementsByTagName("lib-name").item(0);
-        
-        
-        String question = questioneElement.getTextContent();
-        String answer = answereElement.getTextContent();
-        String libName = libNameeElement.getTextContent();
-        System.out.println("Root element :" + result_set.getNodeName());
-        System.out.println("質問：" + question);
-        System.out.println("回答：" + answer);
-        System.out.println("提供館：" + libName);
+        for (int i = 0; i < results.getLength(); i++) {
+			//.item()でi件目のresultを取得
+			Element result = (Element) results.item(i);
+			//referenceタグ指定でElement取得
+			Element reference = (Element) result.getElementsByTagName("reference").item(0);
+			Element questioneElement = (Element) reference.getElementsByTagName("question").item(0);
+			Element answereElement = (Element) reference.getElementsByTagName("answer").item(0);
+			Element libNameeElement = (Element) reference.getElementsByTagName("lib-name").item(0);
+			String question = questioneElement.getTextContent();
+			String answer = answereElement.getTextContent();
+			String libName = libNameeElement.getTextContent();
+			System.out.println("質問：" + question);
+			System.out.println("回答：" + answer);
+			System.out.println("提供館：" + libName);
+			System.out.println("------------------------------");
+		}
         
 	}
 	
