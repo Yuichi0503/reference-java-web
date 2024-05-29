@@ -27,7 +27,11 @@ public class SearchServlet extends HttpServlet implements Servlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String search = null;
 		//リクエストの中身 検索内容、and/orラジオボタン
+		if (search.equals("and")) {
+			//and検索をして検索結果をArrayList<HashMap<String,String>  >          sessionに保存してfoward
+		}
 		
 	}
 
