@@ -2,10 +2,10 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>登録画面</title>
-<link rel="stylesheet" href="./css/register.css" />
+	<head>
+	<meta charset="UTF-8">
+	<title>登録画面</title>
+	<link rel="stylesheet" href="./css/register.css" />
 </head>
 <body>
 
