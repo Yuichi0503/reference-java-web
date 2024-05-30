@@ -28,9 +28,15 @@ public class SearchServlet extends HttpServlet implements Servlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String search = null;
+//		検索結果1~25
+//		HashMap<sys-id, bean>
+
+//		ページごとに
+//		ArrayList<HashMap>
+		
 		//リクエストの中身 検索内容、and/orラジオボタン
 		if (search.equals("and")) {
-			//and検索をして検索結果をArrayList<HashMap<String,String>  >          sessionに保存してfoward
+			//and検索をして検索結果をHashMap< sys-id ,HashMap<String,String>  >    >      sessionに保存してfoward
 		}
 		
 	}

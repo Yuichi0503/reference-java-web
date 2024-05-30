@@ -21,8 +21,10 @@ public class ApiTest {
 	public static void main(String[] args) throws Exception {
 		ApiTest api = new ApiTest();
 		String response = api.run("https://crd.ndl.go.jp/api/refsearch?type=reference&query=question%20any%20%E8%AA%AD%E6%9B%B8");
-//		https://crd.ndl.go.jp/api/refsearch?type=reference&query=question%20any 
-//		https://crd.ndl.go.jp/api/refsearch?type=reference&query=question%20all
+//		https://crd.ndl.go.jp/api/refsearch?type=reference&query=question%20any%20 + searchText
+//		https://crd.ndl.go.jp/api/refsearch?type=reference&query=question%20all%20 + searchText
+//		検索結果取得位置	任意	results_get_position	int デフォルト1
+//		検索結果返却件数	任意	results_num	int デフォルト200
         Document doc = api.convertStringToXMLDocument(response);
         Element result_set = doc.getDocumentElement();
         
@@ -48,13 +50,16 @@ public class ApiTest {
         
 	}
 	
-	String run(String url) throws IOException {
+	String run(String url) {
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
 
 		try (Response response = client.newCall(request).execute()) {
 			return response.body().string();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "error";
 		}
 	}
 	
