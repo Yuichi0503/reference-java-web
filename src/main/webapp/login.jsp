@@ -12,8 +12,8 @@
   <h1>Sign In</h1>
   <form>
     <div class="form-item">
-      <label for="userid"></label>
-      <input type="userid" name="userid" required="required" placeholder="UserID"></input>
+      <label for="user_id"></label>
+      <input type="user_id" name="user_id" required="required" placeholder="UserID"></input>
     </div>
     <div class="form-item">
       <label for="password"></label>
