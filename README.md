@@ -78,6 +78,7 @@
 # 備考
 - tomcat10の為jakartaでimport
 - jaxb2-maven-pluginのxjcでxsdからbeanを生成
+	- goalに`jaxb2:xjc`を設定して実行の構成に登録
 - jstlに必要なもの  
 	- jakarta.servlet.jsp.jstl-api
 	- jakarta.servlet.jsp.jstl(実装)
