@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!doctype html>
 <html lang="jp">
 <head>
@@ -9,10 +10,9 @@
 <body>
 <jsp:include page="header.jsp" />
 	<div class="container-md">
-<!-- 	<p><img src="https://placehold.jp/800x600.png" class="img-fluid" alt="..."></p> -->
-	<form action="">
+	<form action="/reference-java-web/search">
 		<div>
-			<input type="search" class="form-control" placeholder="キーワード検索"/>
+			<input type="search" class="form-control" name="searchText" placeholder="キーワード検索" required="required"/>
 			<button type="submit">検索</button>
 		</div>		
 	</form>

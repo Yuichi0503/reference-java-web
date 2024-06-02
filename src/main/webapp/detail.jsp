@@ -6,13 +6,14 @@
 	<title>詳細ページ</title>
 	<jsp:include page="head.jsp" />
 </head>
-<body>
+<body class="bg-body-color">
 	<jsp:include page="header.jsp" />
 	<div class="container-md">
 		<div class="">
 			<h2 class="col mt-5 text-center">レファレンス事例詳細</h2>
 		</div>
 		<div class="card mt-5">
+			<div class="card-header">提供館<br />更新日時</div>
 			<div class="card-body">
 				<h1 class="card-title">質問:</h1>
 				<p class="card-text">平安～鎌倉時代の「読書」について書かれた本や論文はあるか。
@@ -35,10 +36,28 @@
 					<p>回答プロセス<br />テスト</p>
 				</li>
 				<li class="list-group-item">
+					<p>事前調査事項</p>
+				</li>
+				<li class="list-group-item">
+					<p>参考資料</p>
+				</li>
+				<li class="list-group-item">
+					<p>キーワード</p>
+				</li>
+				<li class="list-group-item">
+					<p>照会先</p>
+				</li>
+				<li class="list-group-item">
+					<p>寄与者</p>
+				</li>
+				<li class="list-group-item">
 					<p>更新日時</p>
 				</li>
 				<li class="list-group-item">
 					<p>提供館</p>
+				</li>
+				<li class="list-group-item">
+					<p>URL</p>
 				</li>
 			</ul>
 		</div>
