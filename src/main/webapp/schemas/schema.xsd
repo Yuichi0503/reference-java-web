@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" 
+	elementFormDefault="qualified" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
+	jxb:version="3.0">
+  <xs:element name="result_set" type="result_setType"/>
+  <xs:complexType name="systemType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="reg-date"/>
+      <xs:element type="xs:string" name="lst-date"/>
+      <xs:element type="xs:string" name="sys-id"/>
+      <xs:element type="xs:string" name="lib-id"/>
+      <xs:element type="xs:string" name="lib-name"/>
+      <xs:element type="xs:string" name="file-num"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="referenceType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="xs:string" name="question"/>
+      <xs:element type="xs:string" name="reg-id"/>
+      <xs:element type="xs:string" name="answer"/>
+      <xs:element type="xs:string" name="crt-date"/>
+      <xs:element type="xs:string" name="solution"/>
+      <xs:element type="xs:string" name="keyword"/>
+      <xs:element type="classType" name="class"/>
+      <xs:element type="xs:string" name="res-type"/>
+      <xs:element type="biblType" name="bibl"/>
+      <xs:element type="xs:string" name="ans-proc"/>
+      <xs:element type="xs:string" name="pre-res"/>
+      <xs:element type="xs:string" name="ptn-type"/>
+      <xs:element type="xs:string" name="note"/>
+      <xs:element type="systemType" name="system"/>
+      <xs:element type="xs:string" name="url"/>
+      <xs:element type="xs:string" name="con-type"/>
+      <xs:element type="xs:string" name="referral"/>
+      <xs:element type="xs:string" name="contri"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="result_setType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="hit_num"/>
+      <xs:element type="xs:string" name="results_get_position"/>
+      <xs:element type="xs:string" name="results_num"/>
+      <xs:element type="xs:string" name="results_cd"/>
+      <!-- 追記 -->
+      <xs:element type="err_listType" name="err_list" maxOccurs="1" minOccurs="0"/>
+      <xs:element type="resultType" name="result" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="biblType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="bibl-desc"/>
+      <xs:element type="xs:string" name="bibl-isbn" minOccurs="0"/>
+      <xs:element type="xs:string" name="bibl-note" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="err_listType">
+    <xs:sequence>
+      <xs:element type="err_itemType" name="err_item"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+<!--   追記 -->
+  <xs:complexType name="err_itemType">
+    <xs:sequence>
+    	<xs:element type="xs:string" name="err_code"/>
+    	<xs:element type="xs:string" name="err_fld"/>
+    	<xs:element type="xs:string" name="err_msg"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="resultType">
+    <xs:sequence>
+      <xs:element type="referenceType" name="reference"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="classType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="type" use="optional"/>
+        <xs:attribute type="xs:string" name="version" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:schema>
