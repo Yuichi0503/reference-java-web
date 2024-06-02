@@ -24,7 +24,7 @@
 - 新着 rss
 
 ### サーブレット
-- 検索時 Sessionになければ、検索文字列と表示pageをModelに投げbeanを受け取る
+- 検索時 Sessionになければ、検索文字列と表示pageをModelに投げResultSetTypeクラスbeanを受け取る
   bean.getResultsCd()で分岐(0:成功、1:失敗)
 - 0の場合List<ResultType>を受け取る。Sessionに、検索文字列+page番号名で保存後フォワード
 	- 検索結果1~25 `List<ResultType>`  	  
