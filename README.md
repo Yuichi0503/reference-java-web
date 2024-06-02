@@ -26,9 +26,9 @@
 ### サーブレット
 - 検索時 Sessionになければ、検索文字列と表示pageをModelに投げResultSetTypeクラスbeanを受け取る
   bean.getResultsCd()で分岐(0:成功、1:失敗)
-- 0の場合List<ResultType>を受け取る。Sessionに、検索文字列+page番号名で保存後フォワード
+- 0の場合受け取ったBeanをSessionに検索文字列+page名で保存。その後フォワード
 	- 検索結果1~25 `List<ResultType>`  	  
-- 1の場合err_list>err_item のerr_code/err_fid/err_msgを受取り、requestScopeにエラーデータを保存してフォワード
+- 1の場合requestScopeにBeanを保存してフォワード
 
 ### Model
 - 検索文字列とpageを受取りapiへ送信  
@@ -74,6 +74,19 @@
 質問者区分  
 
 転記用URL  
+
+# 備考
+- tomcat10の為jakartaでimport
+- jaxb2-maven-pluginのxjcでxsdからbeanを生成
+- jstlに必要なもの  
+	- jakarta.servlet.jsp.jstl-api
+	- jakarta.servlet.jsp.jstl(実装)
+	- jakarta.servlet.jsp-api
+- jakartaEE10からURIがURNに変更
+	- <%@ taglib prefix="c"uri="jakarta.tags.core" %>
+	- <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+	- <%@ taglib prefix="fn"uri="jakarta.tags.functions" %>
+
 # テーブル一覧
 [URL](https://onedrive.live.com/personal/5f191bc732c73af4/_layouts/15/doc2.aspx?resid=8297d200-4d9b-476c-b203-ed8ae6ab01e5&cid=5f191bc732c73af4&ct=1716525039995&wdOrigin=OFFICECOM-WEB.START.UPLOAD&wdPreviousSessionSrc=HarmonyWeb&wdPreviousSession=1202191a-e18f-4d9a-9386-35394108ce06)
 
