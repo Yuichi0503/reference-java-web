@@ -49,6 +49,8 @@ public class SearchServlet extends HttpServlet implements Servlet {
 				//データをセッションに保存
 				session.setAttribute(searchTextPage, rsBean);
 				//検索結果へフォワード
+				request.setAttribute("searchText", searchText);
+				request.setAttribute("Page", page);
 				request.setAttribute("searchTextPage", searchTextPage);
 				request.getRequestDispatcher("/result.jsp").forward(request, response);
 			}
@@ -61,6 +63,8 @@ public class SearchServlet extends HttpServlet implements Servlet {
 			
 		}else {
 			//検索結果へフォワード
+			request.setAttribute("searchText", searchText);
+			request.setAttribute("Page", page);
 			request.setAttribute("searchTextPage", searchTextPage);
 			request.getRequestDispatcher("/result.jsp").forward(request, response);
 		}
