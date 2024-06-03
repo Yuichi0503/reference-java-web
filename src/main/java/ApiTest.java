@@ -72,7 +72,7 @@ public class ApiTest {
 		    
 		    System.out.println(elements.refTypeObject("question"));
 		    System.out.println(((SystemType)elements.refTypeObject("system")).getLibName());
-		    System.out.println();
+		    System.out.println(elements.refTypeAllObjects("keyword"));
 		    
 //		    for (JAXBElement<?> element : elements) {
 //		        // "system"という名前の要素を探す
