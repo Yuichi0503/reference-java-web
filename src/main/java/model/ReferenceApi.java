@@ -21,7 +21,7 @@ public class ReferenceApi {
 	
 	public ResultSetType getResultSetPageBean(String searchText, String page) throws UnsupportedEncodingException, IOException{
 		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference";
-		String results_num = "&results_num=" + "5";
+		String results_num = "&results_num=" + "25";
 		
 		searchText = codec.encode(searchText, "UTF-8");
 		
