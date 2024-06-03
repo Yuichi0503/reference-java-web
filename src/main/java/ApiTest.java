@@ -14,6 +14,7 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import model.bean.ResultSetType;
+import model.bean.SystemType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -52,8 +53,36 @@ public class ApiTest {
 		    // ここでbeanを使用して何かを行う
 		    // 例：bean.getResult()  List<ResultType>を返す
 		    //     bean.getResult().get(i).getReference() i件目のreferenceを返す
-		    System.out.println(bean.getResultsCd());
-		    System.out.println(bean.getResult().get(1).getReference().getQuestionOrRegIdOrAnswer().get(0).getValue());
+//		    System.out.println(bean.getResultsCd());
+//		    for (int i = 0; i < 11; i++) {
+//				System.out.println(i + "番目" +
+//						bean.getResult().get(0).getReference().getQuestionOrRegIdOrAnswer().get(i).getValue());
+//			}
+		    
+		    var elements = bean.getResult().get(0).getReference();
+//		    for (JAXBElement<?> element : elements) {
+//		        // "?"という名前の要素を探す
+//		        if ("question".equals(element.getName().getLocalPart())) {
+//		            // answerの値を取得
+//		            String answer = (String) element.getValue();
+//		            // ここでanswerを使用
+//		            System.out.println(answer);
+//		        }
+//		    }
+		    
+		    System.out.println(elements.refTypeObject("question"));
+		    System.out.println(((SystemType)elements.refTypeObject("system")).getLibName());
+		    System.out.println();
+		    
+//		    for (JAXBElement<?> element : elements) {
+//		        // "system"という名前の要素を探す
+//		        if ("system".equals(element.getName().getLocalPart())) {
+////		        	Object value = element.getValue();
+////		        	System.out.println(element.getName().getLocalPart());
+//		            System.out.println(((SystemType)((Object)element.getValue())).getLibName());
+//		        }
+//		    }
+
 
 		} catch (JAXBException e) {
 		    e.printStackTrace();
