@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+
 
 
 <!doctype html>
@@ -20,39 +22,54 @@
 		</div>
 		<nav aria-label="Page navigation" class="mt-4">
 			<ul class="pagination justify-content-center">
-				<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+				<li class="page-item"><a class="page-link" href="#">前</a></li>
 				<li class="page-item"><a class="page-link" href="#">1</a></li>
 				<li class="page-item"><a class="page-link" href="#">2</a></li>
 				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				<li class="page-item"><a class="page-link" href="#">次</a></li>
 			</ul>
 		</nav>
 
 
-		<c:forEach var="v" items="${sessionScope[searchTextPage].result}">
+		<c:forEach var="rec" items="${sessionScope[searchTextPage].result}" varStatus="status">
 			<div class="simple_result_list_box mt-4">
 				<div class="card text-center">
 					<div class="card-body">
 						<h5 class="card-title">
-							質問<br />${v.reference.questionOrRegIdOrAnswer[0].value}
+							質問
 						</h5>
+						<p class="card-text">${rec.reference.refTypeObject('question')}</p>
+						<h5 class="card-title">回答</h5>
 						<p class="card-text">
-							回答<br />
 							<c:choose>
 								<c:when
-									test="${fn:length(v.reference.questionOrRegIdOrAnswer[2].value) > 40}">
-                            ${fn:substring(v.reference.questionOrRegIdOrAnswer[2].value, 0, 40)}...
+									test="${fn:length(rec.reference.refTypeObject('answer')) > 40}">
+                            ${fn:substring(rec.reference.refTypeObject('answer'), 0, 40)}...
                        			 </c:when>
 								<c:otherwise>
-                            ${v.reference.questionOrRegIdOrAnswer[2].value}
+                            ${rec.reference.refTypeObject('answer')}
                         </c:otherwise>
 							</c:choose>
 						</p>
-						<a href="#" class="btn btn-primary">詳細ページ</a> <a href="#"
-							class="btn btn-warning">お気に入り</a>
+						<form action="/reference-java-web/detail">
+							<button class="btn btn-primary" type="submit" name="index" value="${status.index}" class="btn">詳細ページ</button>
+							<input type="hidden" name="searchTextPage" value="${searchTextPage}">
+						</form>
+						<form action="">
+							<button class="btn btn-warning">お気に入り</button>
+						</form>
 					</div>
 					<div class="card-footer text-body-secondary">
-						<span>lib-name</span> <span>更新日:</span>
+						<div>提供館:${rec.reference.refTypeObject('system').libName}
+						</div>
+						<div>
+							更新日:
+							<fmt:parseDate var="date" 
+							value="${rec.reference.refTypeObject('system').lstDate}"
+								pattern="yyyyMMddHHmmss" />
+							<fmt:formatDate var="fDate" value="${date}" pattern="yyyy/MM/dd" />
+							${fDate}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -63,11 +80,11 @@
 
 		<nav aria-label="Page navigation" class="mt-4">
 			<ul class="pagination justify-content-center">
-				<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+				<li class="page-item"><a class="page-link" href="#">前</a></li>
 				<li class="page-item"><a class="page-link" href="#">1</a></li>
 				<li class="page-item"><a class="page-link" href="#">2</a></li>
 				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				<li class="page-item"><a class="page-link" href="#">次</a></li>
 			</ul>
 		</nav>
 	</div>
