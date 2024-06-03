@@ -131,14 +131,24 @@ public class ReferenceType {
     //追記
     public Object refTypeObject(String refTypeName) {
     	for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
-	        // "elementName"という名前の要素を探す
+	        // "refTypeName"という名前の要素を探す
 	        if (refTypeName.equals(element.getName().getLocalPart())) {
-	            // answerの値を取得
 	            return element.getValue();
 	        }
 	    }
 		return null;
 		
 	}
+    
+    public List<Object> refTypeAllObjects(String refTypeName) {
+        List<Object> matchingElements = new ArrayList<>();
+        for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
+            if (refTypeName.equals(element.getName().getLocalPart())) {
+                matchingElements.add(element.getValue());
+            }
+        }
+        return matchingElements;
+    }
+
 
 }
