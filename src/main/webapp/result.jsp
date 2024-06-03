@@ -35,11 +35,18 @@
 			<div class="simple_result_list_box mt-4">
 				<div class="card text-center">
 					<div class="card-body">
+						<c:set var="solution" value="${rec.reference.refTypeObject('solution')}"></c:set>
 						<h5 class="card-title">
 							質問
 						</h5>
-						<p class="card-text">${rec.reference.refTypeObject('question')}</p>
-						<h5 class="card-title">回答</h5>
+						<p class="card-text">${rec.reference.refTypeObject('question')}
+							<c:if test="${rec.reference.refTypeObject('ptn-type') != null}">
+								by:${rec.reference.refTypeObject('ptn-type')}
+							</c:if>
+						</p>
+						<h5 class="card-title">回答
+							<c:if test="${'1'.equals(solution)}"><br />(未解決)</c:if>
+						</h5>
 						<p class="card-text">
 							<c:choose>
 								<c:when
@@ -51,24 +58,37 @@
                         </c:otherwise>
 							</c:choose>
 						</p>
-						<form action="/reference-java-web/detail">
-							<button class="btn btn-primary" type="submit" name="index" value="${status.index}" class="btn">詳細ページ</button>
-							<input type="hidden" name="searchTextPage" value="${searchTextPage}">
-						</form>
-						<form action="">
-							<button class="btn btn-warning">お気に入り</button>
-						</form>
+						<div class="button_group d-flex justify-content-center gap-3">
+							<form action="/reference-java-web/detail">
+								<button class="btn btn-primary" type="submit" name="index" value="${status.index}" class="btn">詳細ページ</button>
+								<input type="hidden" name="searchTextPage" value="${searchTextPage}">
+							</form>
+							<form action="">
+								<button class="btn btn-warning">お気に入り</button>
+							</form>
+						</div>
 					</div>
 					<div class="card-footer text-body-secondary">
 						<div>提供館:${rec.reference.refTypeObject('system').libName}
 						</div>
+<%-- 						<c:set var="crtDate" value="${}"></c:set> --%>
+						<c:if test="${!'00000000'.equals(rec.reference.refTypeObject('crt-date'))}">
+							<div>
+								事例作成日:
+								<fmt:parseDate var="crtDate" 
+								value="${rec.reference.refTypeObject('crt-date')}" 
+									pattern="yyyyMMdd" />
+								<fmt:formatDate var="fCrtDate" value="${crtDate}" pattern="yyyy/MM/dd" />
+								${fCrtDate}
+							</div>
+						</c:if>
 						<div>
 							更新日:
-							<fmt:parseDate var="date" 
+							<fmt:parseDate var="lstDate" 
 							value="${rec.reference.refTypeObject('system').lstDate}"
 								pattern="yyyyMMddHHmmss" />
-							<fmt:formatDate var="fDate" value="${date}" pattern="yyyy/MM/dd" />
-							${fDate}
+							<fmt:formatDate var="fLstDate" value="${lstDate}" pattern="yyyy/MM/dd" />
+							${fLstDate}
 						</div>
 					</div>
 				</div>
