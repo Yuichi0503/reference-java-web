@@ -2,14 +2,13 @@
 // このファイルは、Eclipse Implementation of JAXB、v3.0.2によって生成されました 
 // https://eclipse-ee4j.github.io/jaxb-riを参照してください 
 // ソース・スキーマの再コンパイル時にこのファイルの変更は失われます。 
-// 生成日: 2024.06.02 時間 08:17:43 PM JST 
+// 生成日: 2024.06.03 時間 11:18:42 AM JST 
 //
 
 
 package model.bean;
 
 import javax.xml.namespace.QName;
-
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
