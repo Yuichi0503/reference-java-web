@@ -38,6 +38,7 @@
 			<div class="card-body">
 				<h1 class="card-title">質問:</h1>
 				<c:set var="question" value="${fn:replace(data.refTypeObject('question'), '。', '。<br/>')}" />
+				<c:set var="question" value="${fn:replace(question, '。<br/>」', '。」')}" />
 				<p class="card-text">${question}
 				<c:if test="${data.refTypeObject('ptn-type') != null}">
 					by:${data.refTypeObject('ptn-type')}
@@ -45,18 +46,21 @@
 				</p>
 				<h1 class="card-title">回答:</h1>
 				<c:set var="answer" value="${fn:replace(data.refTypeObject('answer'), '。', '。<br/>')}" />
+				<c:set var="answer" value="${fn:replace(answer, '。<br/>」', '。」')}" />
 				<p class="card-text">${answer}</p>
 			</div>
 			<ul class="list-group list-group-flush  justify-content-center">
 				<li class="list-group-item">
 					<p>回答プロセス<br />
 					<c:set var="ansProc" value="${fn:replace(data.refTypeObject('ans-proc'), '。', '。<br/>')}" />
+					<c:set var="ansProc" value="${fn:replace(ansProc, '。<br/>」', '。」')}" />
 					${ansProc}
 					</p>
 				</li>
 				<li class="list-group-item">
 					<p>事前調査事項</p><br />
 					<c:set var="preRes" value="${fn:replace(data.refTypeObject('pre-res'), '。', '。<br/>')}" />
+					<c:set var="preRes" value="${fn:replace(preRes, '。<br/>」', '。」')}" />
 					${preRes}
 				</li>
 				<li class="list-group-item">

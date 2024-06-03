@@ -39,7 +39,15 @@
 						<h5 class="card-title">
 							質問
 						</h5>
-						<p class="card-text">${rec.reference.refTypeObject('question')}
+						<p class="card-text">
+							<c:choose>
+								<c:when test="${fn:length(rec.reference.refTypeObject('question')) > 40}">
+                           			 ${fn:substring(rec.reference.refTypeObject('question'), 0, 40)}...
+                       			</c:when>
+								<c:otherwise>
+		                            ${rec.reference.refTypeObject('question')}
+		                        </c:otherwise>
+							</c:choose>
 							<c:if test="${rec.reference.refTypeObject('ptn-type') != null}">
 								by:${rec.reference.refTypeObject('ptn-type')}
 							</c:if>
@@ -49,13 +57,12 @@
 						</h5>
 						<p class="card-text">
 							<c:choose>
-								<c:when
-									test="${fn:length(rec.reference.refTypeObject('answer')) > 40}">
-                            ${fn:substring(rec.reference.refTypeObject('answer'), 0, 40)}...
-                       			 </c:when>
+								<c:when test="${fn:length(rec.reference.refTypeObject('answer')) > 40}">
+                           			 ${fn:substring(rec.reference.refTypeObject('answer'), 0, 40)}...
+                       			</c:when>
 								<c:otherwise>
-                            ${rec.reference.refTypeObject('answer')}
-                        </c:otherwise>
+		                            ${rec.reference.refTypeObject('answer')}
+		                        </c:otherwise>
 							</c:choose>
 						</p>
 						<div class="button_group d-flex justify-content-center gap-3">
