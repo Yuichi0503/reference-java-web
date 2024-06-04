@@ -17,21 +17,41 @@
 	<div class="container-md mt-4">
 		<div class="result_num_box d-flex justify-content-center">
 			<div>検索結果</div>
-			<div>hoge件中</div>
-			<div>fuga件からpiyo件を表示</div>
+			<div>${rsBean.hitNum}件中</div>
+			<c:set var="totalPages" value="${sessionScope[stringTotalPages]}"></c:set>
+			<c:set var="start" value="${(page - 1) * RESULT_NUM + 1 }"></c:set>
+			<c:set var="end" value="${start + RESULT_NUM - 1}"></c:set>
+			<c:set var="end" value="${Math.min(end.intValue(), totalPages)}"></c:set>
+			<div>
+				${start}件から${end}件を表示
+			</div>
 		</div>
-		<nav aria-label="Page navigation" class="mt-4">
-			<ul class="pagination justify-content-center">
-				<li class="page-item"><a class="page-link" href="#">前</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">次</a></li>
-			</ul>
-		</nav>
+		
+		<form action="/reference-java-web/search">
+			<nav aria-label="Page navigation" class="mt-4">
+				<ul class="pagination justify-content-center">
+					<c:if test="${page - 1 != 0}">
+						<li class="page-item"><button class="page-link" name="page" value="${page - 1}">前</button></li>
+						<c:if test="${page -1 != 1}">
+							<li class="page-item "><button class="page-link" name="page" value="1">1</button></li>
+						</c:if>
+						<li class="page-item"><button class="page-link" name="page" value="${page - 1}">${page - 1}</button></li>
+					</c:if>
+					<li class="page-item active"><button type="button" class="page-link">${page}</button></li>
+					<c:if test="${page + 1 <= totalPages}">
+						<li class="page-item"><button class="page-link" name="page" value="${page + 1}">${page + 1}</button></li>
+						<c:if test="${page + 1 != totalPages}">
+							<li class="page-item "><button class="page-link" name="page" value="${totalPages}">${totalPages}</button></li>
+						</c:if>
+						<li class="page-item"><button class="page-link" name="page" value="${page + 1}">次</button></li>
+					</c:if>
+					<input type="hidden" name="searchText" value="${searchText}"/>
+				</ul>
+			</nav>
+		</form>
 
 
-		<c:forEach var="rec" items="${sessionScope[searchTextPage].result}" varStatus="status">
+		<c:forEach var="rec" items="${rsBean.result}" varStatus="status">
 			<div class="simple_result_list_box mt-4">
 				<div class="card text-center">
 					<div class="card-body">
@@ -68,7 +88,8 @@
 						<div class="button_group d-flex justify-content-center gap-3">
 							<form action="/reference-java-web/detail">
 								<button class="btn btn-primary" type="submit" name="index" value="${status.index}" class="btn">詳細ページ</button>
-								<input type="hidden" name="searchTextPage" value="${searchTextPage}">
+								<input type="hidden" name="searchText" value="${searchText}">
+								<input type="hidden" name="page" value="${page}">
 							</form>
 							<form action="">
 								<button class="btn btn-warning">お気に入り</button>
@@ -78,7 +99,6 @@
 					<div class="card-footer text-body-secondary">
 						<div>提供館:${rec.reference.refTypeObject('system').libName}
 						</div>
-<%-- 						<c:set var="crtDate" value="${}"></c:set> --%>
 						<c:if test="${!'00000000'.equals(rec.reference.refTypeObject('crt-date'))}">
 							<div>
 								事例作成日:
@@ -102,18 +122,28 @@
 			</div>
 		</c:forEach>
 
-
-
-
-		<nav aria-label="Page navigation" class="mt-4">
-			<ul class="pagination justify-content-center">
-				<li class="page-item"><a class="page-link" href="#">前</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">次</a></li>
-			</ul>
-		</nav>
+		<form action="/reference-java-web/search">
+			<nav aria-label="Page navigation" class="mt-4">
+				<ul class="pagination justify-content-center">
+					<c:if test="${page - 1 != 0}">
+						<li class="page-item"><button class="page-link" name="page" value="${page - 1}">前</button></li>
+						<c:if test="${page -1 != 1}">
+							<li class="page-item "><button class="page-link" name="page" value="1">1</button></li>
+						</c:if>
+						<li class="page-item"><button class="page-link" name="page" value="${page - 1}">${page - 1}</button></li>
+					</c:if>
+					<li class="page-item active"><button type="button" class="page-link">${page}</button></li>
+					<c:if test="${page + 1 <= totalPages}">
+						<li class="page-item"><button class="page-link" name="page" value="${page + 1}">${page + 1}</button></li>
+						<c:if test="${page + 1 != totalPages}">
+							<li class="page-item "><button class="page-link" name="page" value="${totalPages}">${totalPages}</button></li>
+						</c:if>						<li class="page-item"><button class="page-link" name="page" value="${page + 1}">次</button></li>
+					</c:if>
+					<input type="hidden" name="searchText" value="${searchText}"/>
+				</ul>
+			</nav>
+		</form>
+		
 	</div>
 	<jsp:include page="footer.jsp" />
 </body>
