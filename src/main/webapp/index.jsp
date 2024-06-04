@@ -15,6 +15,7 @@
 		<div class="d-flex justify-content-center flex-wrap gap-3">
 			<input type="search" class="w-50 form-control" name="searchText" placeholder="キーワード検索" required="required"/>
 			<button type="submit" class="btn btn-secondary">検索</button>
+			<input type="hidden" name="page" value="1"/>
 		</div>		
 	</form>
 	<form action="" class="mt-5 d-flex justify-content-center">
