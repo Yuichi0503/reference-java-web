@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<header style="background-color: rgb(117, 183, 152)">
-		<nav class="navbar navbar-expand-lg sticky-top">
+	<header style="background-color: rgb(117, 183, 152)" class="sticky-top">
+		<nav class="navbar navbar-expand-lg">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">Navbar</a>
 				<button class="navbar-toggler" type="button"
