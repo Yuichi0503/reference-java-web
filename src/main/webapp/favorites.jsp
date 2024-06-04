@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!doctype html>
-<html lang="jp">
+<html lang="ja">
 <head>
 	<title>お気に入りページ</title>
 	<jsp:include page="head.jsp" />

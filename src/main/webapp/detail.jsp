@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!doctype html>
-<html lang="jp">
+<html lang="ja">
 <head>
 	<title>詳細ページ</title>
 	<jsp:include page="head.jsp" />

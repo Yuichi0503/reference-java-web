@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <!doctype html>
-<html lang="jp">
+<html lang="ja">
 <head>
 	<title>メインページ</title>
 	<jsp:include page="head.jsp" />
@@ -10,13 +10,17 @@
 <body>
 <jsp:include page="header.jsp" />
 	<div class="container-md">
-	<form action="/reference-java-web/search">
-		<div>
-			<input type="search" class="form-control" name="searchText" placeholder="キーワード検索" required="required"/>
-			<button type="submit">検索</button>
+	
+	<form action="/reference-java-web/search" class="mt-5">
+		<div class="d-flex justify-content-center flex-wrap gap-3">
+			<input type="search" class="w-50 form-control" name="searchText" placeholder="キーワード検索" required="required"/>
+			<button type="submit" class="btn btn-secondary">検索</button>
 		</div>		
 	</form>
-	<button type="submit">ランダム検索</button>
+	<form action="" class="mt-5 d-flex justify-content-center">
+		<button type="submit" class="btn btn-secondary">ランダム検索</button>
+	</form>
+	
 	</div>
 <jsp:include page="footer.jsp" />
 </body>

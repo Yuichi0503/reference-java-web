@@ -7,7 +7,7 @@
 
 
 <!doctype html>
-<html lang="jp">
+<html lang="ja">
 <head>
 	<title>検索結果</title>
 	<jsp:include page="head.jsp" />
