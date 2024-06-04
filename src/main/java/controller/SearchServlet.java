@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.ReferenceApi;
+import model.bean.ResultSetType;
 
 /**
  * Servlet implementation class SearchServlet
@@ -30,28 +31,35 @@ public class SearchServlet extends HttpServlet implements Servlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
-		String searchText = (String) request.getParameter("searchText");
+		final int RESULT_NUM = 25;
+		String searchText = request.getParameter("searchText");
 		String page = request.getParameter("page");
 		if (page == null) {
 			page = "1";
 		}
 		 
-		String searchTextPage = searchText + page;
-		
 		var refApi = new ReferenceApi();
 		
-		if (null == request.getAttribute(searchTextPage)) {
+		//検索文字列+ページ番号の名前のBeanがセッションにない場合
+		if (null == session.getAttribute(searchText + page)) {
 			//searchTextとpageを投げて、データを受け取る
 			var rsBean = refApi.getResultSetPageBean(searchText, page);
 			//bean.getResultsCd()で分岐(0:成功、1:失敗)
 			if (rsBean.getResultsCd().equals("0")) {
-				//データをセッションに保存
-				session.setAttribute(searchTextPage, rsBean);
+				//検索文字列+pageでBeanをセッションに保存
+				session.setAttribute(searchText + page, rsBean);
+				
+				int hit_num = Integer.parseInt(rsBean.getHitNum());
+				int totalPages =(hit_num + RESULT_NUM - 1) /RESULT_NUM;
+				//検索文字列+TotalPagesの名前で総ページ数をセッションに保存
+				session.setAttribute(searchText + "TotalPages", totalPages);
+				
 				//検索結果へフォワード
+				request.setAttribute("stringTotalPages", searchText + "TotalPages");
+				request.setAttribute("RESULT_NUM", RESULT_NUM);
 				request.setAttribute("searchText", searchText);
-				request.setAttribute("Page", page);
-				request.setAttribute("searchTextPage", searchTextPage);
+				request.setAttribute("page", Integer.parseInt(page));
+				request.setAttribute("rsBean", rsBean);
 				request.getRequestDispatcher("/result.jsp").forward(request, response);
 			}
 			
@@ -62,19 +70,16 @@ public class SearchServlet extends HttpServlet implements Servlet {
 			}
 			
 		}else {
+			//検索文字列+ページ番号の名前のBeanがセッションにある場合
+			var rsBean = (ResultSetType)session.getAttribute(searchText + page);
+			
 			//検索結果へフォワード
+			request.setAttribute("stringTotalPages", searchText + "TotalPages");
+			request.setAttribute("RESULT_NUM", RESULT_NUM);
 			request.setAttribute("searchText", searchText);
-			request.setAttribute("Page", page);
-			request.setAttribute("searchTextPage", searchTextPage);
+			request.setAttribute("page", Integer.parseInt(page));
+			request.setAttribute("rsBean", rsBean);
 			request.getRequestDispatcher("/result.jsp").forward(request, response);
-		}
-//		検索結果1~25
-//		HashMap<sys-id, bean>
-
-		
-		//リクエストの中身 検索内容、and/orラジオボタン
-		if (true) {
-			//and検索をして検索結果をHashMap< sys-id ,HashMap<String,String>  >    >      sessionに保存してfoward
 		}
 		
 	}
