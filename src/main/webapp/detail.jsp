@@ -11,7 +11,7 @@
 </head>
 <body class="bg-body-color">
 	<jsp:include page="header.jsp" />
-	<c:set var="data" value="${sessionScope[searchTextPage].result[index].reference}"></c:set>
+	<c:set var="data" value="${rsBean.result[index].reference}"></c:set>
 	
 	<div class="container-md">
 		<div class="">
