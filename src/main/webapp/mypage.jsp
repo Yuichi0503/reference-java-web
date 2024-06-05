@@ -11,10 +11,10 @@
 	<div class="container-md">
 		<form action="">
 			<div>
-				<ul>
-					<li><button name="button" value="email">email変更</button></li>
-					<li><button name="button" value="password">password変更</button></li>
-					<li><button name="button" value="delete account">退会</button></li>
+				<ul class="list-group mt-4">
+					<li class="list-group-item d-flex justify-content-center"><button name="button" value="email" class="btn btn-primary">email変更</button></li>
+					<li class="list-group-item d-flex justify-content-center"><button name="button" value="password" class="btn btn-primary">password変更</button></li>
+					<li class="list-group-item d-flex justify-content-center"><button name="button" value="delete account" class="btn btn-danger">退会</button></li>
 				</ul>
 			</div>
 		</form>
