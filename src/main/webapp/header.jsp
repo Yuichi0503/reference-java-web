@@ -17,10 +17,11 @@
 						<li class="nav-item"><a class="nav-link" href="favorites.jsp">お気に入り</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">ログアウト</a></li>
 					</ul>
-					<form class="d-flex" role="search">
+					<form class="d-flex" role="search" action="/reference-java-web/search">
 						<input class="form-control me-2" type="search" placeholder="Search"
-							aria-label="Search">
+							aria-label="Search" name="searchText">
 						<button class="btn btn-outline-success" type="submit">Search</button>
+						<input type="hidden" name="page" value="1" />
 					</form>
 				</div>
 			</div>
