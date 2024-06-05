@@ -18,7 +18,7 @@
 		<div class="result_num_box d-flex justify-content-center">
 			<div>検索結果</div>
 			<div>${rsBean.hitNum}件中</div>
-			<c:set var="totalPages" value="${sessionScope[stringTotalPages]}"></c:set>
+			<c:set var="totalPages" value="${sessionScope[stringSearchTextTotalPages]}"></c:set>
 			<c:set var="start" value="${(page - 1) * RESULT_NUM + 1 }"></c:set>
 			<c:set var="end" value="${start + RESULT_NUM - 1}"></c:set>
 			<c:set var="end" value="${Math.min(end.intValue(), totalPages)}"></c:set>

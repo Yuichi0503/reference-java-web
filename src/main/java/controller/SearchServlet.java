@@ -55,7 +55,7 @@ public class SearchServlet extends HttpServlet implements Servlet {
 				session.setAttribute(searchText + "TotalPages", totalPages);
 				
 				//検索結果へフォワード
-				request.setAttribute("stringTotalPages", searchText + "TotalPages");
+				request.setAttribute("stringSearchTextTotalPages", searchText + "TotalPages");
 				request.setAttribute("RESULT_NUM", RESULT_NUM);
 				request.setAttribute("searchText", searchText);
 				request.setAttribute("page", Integer.parseInt(page));
@@ -74,7 +74,7 @@ public class SearchServlet extends HttpServlet implements Servlet {
 			var rsBean = (ResultSetType)session.getAttribute(searchText + page);
 			
 			//検索結果へフォワード
-			request.setAttribute("stringTotalPages", searchText + "TotalPages");
+			request.setAttribute("stringSearchTextTotalPages", searchText + "TotalPages");
 			request.setAttribute("RESULT_NUM", RESULT_NUM);
 			request.setAttribute("searchText", searchText);
 			request.setAttribute("page", Integer.parseInt(page));
