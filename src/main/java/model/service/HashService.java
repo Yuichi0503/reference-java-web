@@ -26,12 +26,17 @@ public class HashService {
 		return null;
 	}
 	
-	private static String hash(String s) throws Exception {
+	public static String hash(String s) {
 		byte[] encodedhash = null;
 		MessageDigest sha256 = null;
-		sha256 = MessageDigest.getInstance("SHA-256");
-		encodedhash = sha256.digest(s.getBytes("UTF-8"));
-		return bytesToHex(encodedhash);
+		try {
+			sha256 = MessageDigest.getInstance("SHA-256");
+			encodedhash = sha256.digest(s.getBytes("UTF-8"));
+			return bytesToHex(encodedhash);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private static String generateSalt() {
