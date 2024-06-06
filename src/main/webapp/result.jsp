@@ -22,8 +22,15 @@
 			<c:set var="start" value="${(page - 1) * RESULT_NUM + 1 }"></c:set>
 			<c:set var="end" value="${start + RESULT_NUM - 1}"></c:set>
 			<c:set var="end" value="${Math.min(end.intValue(), totalPages)}"></c:set>
+			
+			<c:set var="sRef" value="${page * RESULT_NUM + 1}"></c:set>
+			<c:set var="eRef" value="${Math.min(end.intValue(), totalPages)}"></c:set>
 			<div>
-				${start}件から${end}件を表示
+				<c:choose>
+				<c:when test="${page == 1}">1件から${RESULT_NUM}件を表示</c:when>
+				<c:when test="${page == totalPages}">${rsBean.hitNum - RESULT_NUM}件から${rsBean.hitNum}件を表示</c:when>
+				<c:otherwise>${sRef}件から${end}件を表示</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 		
