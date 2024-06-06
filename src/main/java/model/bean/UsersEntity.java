@@ -2,9 +2,6 @@ package model.bean;
 
 import java.time.LocalDate;
 
-import jakarta.servlet.http.HttpServletRequestWrapper;
-import model.service.HashService;
-
 public class UsersEntity {
 	private String user_id;
 	private String email;
@@ -57,29 +54,6 @@ public class UsersEntity {
 
 	public void setReg_date(LocalDate reg_date) {
 		this.reg_date = reg_date;
-	}
-	
-	/**
-	 * formから送られたrequestを受け取り、
-	 * entityで返す
-	 * 
-	 * @param request 
-	 * @return 登録用entity
-	 */
-	public UsersEntity regUsersEntity(HttpServletRequestWrapper request){
-		if (request.getParameter("email") == null || request.getParameter("email").isEmpty() ) {
-			return null;
-		}
-		if (request.getParameter("password") == null || request.getParameter("password").isEmpty() ) {
-			return null;
-		}
-		var entity = new UsersEntity();
-		entity.setEmail(request.getParameter("email"));
-		var hashSaltMap = HashService.hashWithSalt(request.getParameter("password"));
-		entity.setHashed_password(hashSaltMap.get("hash"));
-		entity.setSalt(hashSaltMap.get("salt"));
-		entity.setReg_date(LocalDate.now());
-		return entity;
 	}
 	
 }

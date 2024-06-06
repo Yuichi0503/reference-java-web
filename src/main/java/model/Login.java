@@ -8,12 +8,12 @@ public class Login {
 	public static boolean loginCheck(String email, String input_password) {
 		//daoを利用してemailを元にレコードを取得
 		UsersDao dao = new UsersDao();
+		var entity = dao.getEntity(email);
 		//entityがなければfalse
-		if (dao.getEntity(email) == null) {
+		if (entity == null) {
 			return false;
 		}
 		//emailをkeyにentity取得
-		var entity = dao.getEntity(email);
 		
 		//レコードのhashed_passwardの値と引数+saltのhashを比較
 		var salt = entity.getSalt();

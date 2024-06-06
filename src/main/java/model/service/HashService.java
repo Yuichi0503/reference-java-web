@@ -9,8 +9,13 @@ import java.util.Map;
 public class HashService {
 	
     private static final SecureRandom random = new SecureRandom();
-	
-	//受け取った値にsaltを追加して、SHA-256でハッシュ化し、その結果をmapで返す
+	/**
+	 * 受け取った値にsaltを追加して、
+	 * SHA-256でハッシュ化し、hashとsaltをmapで返す
+	 * 
+	 * @param password hash前のpassword
+	 * @return hashとsaltが格納されたmap
+	 */
 	static public Map<String, String> hashWithSalt(String password) {
 		//ハッシュ化
 		Map<String, String> hashSaltMap = new HashMap<>();
@@ -26,6 +31,12 @@ public class HashService {
 		return null;
 	}
 	
+	/**
+	 * Stringをsha256でハッシュ化
+	 * 
+	 * @param s ハッシュ化したいString
+	 * @return ハッシュ値
+	 */
 	public static String hash(String s) {
 		byte[] encodedhash = null;
 		MessageDigest sha256 = null;

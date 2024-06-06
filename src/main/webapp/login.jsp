@@ -10,10 +10,10 @@
 <body>
 	<div class="form-wrapper">
 		<h1>Sign In</h1>
-		<form>
+		<form action="/reference-java-web/login" method="post">
 			<div class="form-item">
-				<label for="user_id"></label> <input type="user_id" name="user_id"
-					required="required" placeholder="UserID"></input>
+				<label for="email"></label> <input type="email" name="email"
+					required="required" placeholder="email"></input>
 			</div>
 			<div class="form-item">
 				<label for="password"></label> <input type="password"
