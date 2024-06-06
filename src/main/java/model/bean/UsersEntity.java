@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequestWrapper;
 import model.service.HashService;
 
 public class UsersEntity {
+	private String user_id;
 	private String email;
 	private String hashed_password;
 	private String salt;
@@ -13,14 +14,18 @@ public class UsersEntity {
 	
 	public UsersEntity() {
 	}
-	//TODO 別クラスに分ける
-	public UsersEntity(HttpServletRequestWrapper request){
-		this.email = request.getParameter("email");
-		var hashSaltMap = HashService.hashWithSalt(request.getParameter("password"));
-		this.hashed_password = hashSaltMap.get("hash");
-		this.salt = hashSaltMap.get("salt");
-		this.reg_date = LocalDate.now();
+	
+	public String getUser_id() {
+		return user_id;
 	}
+
+
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+
 
 	public String getEmail() {
 		return email;
@@ -54,6 +59,27 @@ public class UsersEntity {
 		this.reg_date = reg_date;
 	}
 	
-	
+	/**
+	 * formから送られたrequestを受け取り、
+	 * entityで返す
+	 * 
+	 * @param request 
+	 * @return 登録用entity
+	 */
+	public UsersEntity regUsersEntity(HttpServletRequestWrapper request){
+		if (request.getParameter("email") == null || request.getParameter("email").isEmpty() ) {
+			return null;
+		}
+		if (request.getParameter("password") == null || request.getParameter("password").isEmpty() ) {
+			return null;
+		}
+		var entity = new UsersEntity();
+		entity.setEmail(request.getParameter("email"));
+		var hashSaltMap = HashService.hashWithSalt(request.getParameter("password"));
+		entity.setHashed_password(hashSaltMap.get("hash"));
+		entity.setSalt(hashSaltMap.get("salt"));
+		entity.setReg_date(LocalDate.now());
+		return entity;
+	}
 	
 }
