@@ -19,7 +19,6 @@
 
 ## メインページ
 - 検索 (searchText)
-  - radioボタン(type:all/or)
 - ランダム検索
 - 新着 rss
 
@@ -76,20 +75,21 @@
 転記用URL  
 
 # 備考
+- jspが実行できない場合、プロジェクトファセットの動的webモジュールのバージョンを5.0に変更
+- jdbcが読み込めない場合、Class.forName()を追記
 - tomcat10の為jakartaでimport
-- jaxb2-maven-pluginのxjcでxsdからbeanを生成
-	- goalに`jaxb2:xjc`を設定して実行の構成に登録
+- jaxb2-maven-pluginのxjcを使用して、xsdからbeanを生成します。
+	- pom.xmlの`<configuration>`、`<sources>`、`<source>`に、`${project.basedir}`を使用してxsdのパスを記述します。
+ 	- xsdのxmlns:（XML名前空間）の記述に基づいてJavaコードを生成します。この名前空間の指定により、生成されるJavaコードのパッケージ構造やimport文が変わります。
 - jstlに必要なもの  
-	- jakarta.servlet.jsp.jstl-api
-	- jakarta.servlet.jsp.jstl(実装)
-	- jakarta.servlet.jsp-api
+	1. jakarta.servlet.jsp.jstl-api
+	1. jakarta.servlet.jsp.jstl(jstl-apiの実装)
+	1. jakarta.servlet.jsp-api
 - jakartaEE10からURIがURNに変更
-	- <%@ taglib prefix="c"uri="jakarta.tags.core" %>
-	- <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-	- <%@ taglib prefix="fn"uri="jakarta.tags.functions" %>
+	- `<%@ taglib prefix="c"uri="jakarta.tags.core" %>`
+	- `<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>`
+	- `<%@ taglib prefix="fn"uri="jakarta.tags.functions" %>`
 	
-- jspが実行できない場合
-	- プロジェクトファセットの動的webモジュールのバージョンを5.0に変更
 	
 - ReferenceTypeへのアクセスにはReferenceTypeメソッドの  
   refTypeObject("refTypeName")を使う
