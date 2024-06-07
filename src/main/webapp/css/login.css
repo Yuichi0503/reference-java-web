@@ -97,3 +97,8 @@ form {
 .form-footer a:hover {
   border-bottom: 1px dotted #8c8c8c;
 }
+.error_msg {
+  color: red;
+  font-size: 1.2em;
+  text-align: center;
+}

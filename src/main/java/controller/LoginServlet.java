@@ -38,13 +38,22 @@ public class LoginServlet extends HttpServlet {
 		//ログインチェック
 		if (Login.loginCheck(email, password)) {
 			var entity = UsersDao.getEntity(email);
-			//ユーザ情報をセッションに保存
-			session.setAttribute("user_id", entity.getUser_id());
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			if (entity.isVerified() == true) {
+				//ユーザ情報をセッションに保存
+				session.setAttribute("user_id", entity.getUser_id());
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
+			}else {
+				//認証が完了していない場合、認証を促す
+				request.setAttribute("msg", "認証が完了していません。メールを確認してください。");
+				request.setAttribute("email", email);
+				request.setAttribute("password", password);
+				request.getRequestDispatcher("/login.jsp").forward(request, response);
+			}
 		} else {
-			//TODO 失敗時、再入力を促す・jsp修正
-			request.getAttribute(email);
-			request.getAttribute(password);
+			//失敗時、再入力を促す
+			request.setAttribute("msg", "ログインに失敗しました。");
+			request.setAttribute("email", email);
+			request.setAttribute("password", password);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		} 
 		
