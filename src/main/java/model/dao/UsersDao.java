@@ -10,10 +10,10 @@ import model.bean.UsersEntity;
 
 public class UsersDao {
 	
-	ResourceBundle bundle = ResourceBundle.getBundle("db");
-	private final String URL = bundle.getString("dbURL");
-	private final String USER = bundle.getString("dbUSER");
-	private final String PASS = bundle.getString("dbPASS");
+	private static final ResourceBundle bundle = ResourceBundle.getBundle("db");
+	private static final String URL = bundle.getString("dbURL");
+	private static final String USER = bundle.getString("dbUSER");
+	private static final String PASS = bundle.getString("dbPASS");
 	
 	
 	/**
@@ -21,7 +21,7 @@ public class UsersDao {
 	 * @param email
 	 * @return entity or null
 	 */
-	public UsersEntity getEntity(String email) {
+	public static UsersEntity getEntity(String email) {
 		var entity = new UsersEntity();
 		String sql =  "SELECT *\n"
 					+ "FROM users\n"
@@ -32,7 +32,7 @@ public class UsersDao {
 			e.printStackTrace();
 		}
 		try (
-				//この中にcloseすべきものを書ける(pstmtがcloseされる時、rsもcloseされます)
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);
 		) {
@@ -49,6 +49,41 @@ public class UsersDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * entityをDBに追加
+	 * @param entity
+	 * @return 成功したか
+	 */
+	public static boolean addEntity(UsersEntity entity) {
+		String sql =  "INSERT INTO users (user_id, user_name, email, hashed_password, salt, token, is_verified)\n"
+                    + "VALUES (?, ?, ?, ?, ?, ?, ? )\n";
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);
+		) {
+			pstmt.setString(1, entity.getUser_id());
+			pstmt.setString(2, entity.getUser_name());
+			pstmt.setString(3, entity.getEmail());
+			pstmt.setString(4, entity.getHashed_password());
+			pstmt.setString(5, entity.getSalt());
+			pstmt.setString(6, entity.getToken());
+			pstmt.setBoolean(7, entity.isVerified());
+			int result = pstmt.executeUpdate();
+			if (result == 1) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }
