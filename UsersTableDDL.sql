@@ -1,5 +1,5 @@
 -- Project Name : noname
--- Date/Time    : 2024/06/06 14:26:07
+-- Date/Time    : 2024/06/07 16:01:51
 -- Author       : kunre
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -14,23 +14,27 @@
 
 -- users
 -- * RestoreFromTempTable
-CREATE TABLE users (
-  user_id character varying(64) NOT NULL
-  , user_name character varying(64) NOT NULL
-  , email character varying(40) NOT NULL
-  , hashed_password character varying(64) NOT NULL
-  , salt character varying(32) NOT NULL
-  , reg_date date DEFAULT now() NOT NULL
+create table users (
+  user_id character varying(64) not null
+  , user_name character varying(64) not null
+  , email character varying(40) not null
+  , hashed_password character varying(64) not null
+  , salt character varying(32) not null
+  , reg_date date default now() not null
+  , token character varying(255)
+  , isverified boolean default false
 ) ;
 
-CREATE UNIQUE INDEX email_unique
-  ON users(email);
+create unique index email_unique
+  on users(email);
 
-COMMENT ON TABLE users IS 'users';
-COMMENT ON COLUMN users.user_id IS 'user_id';
-COMMENT ON COLUMN users.user_name IS 'user_name';
-COMMENT ON COLUMN users.email IS 'email';
-COMMENT ON COLUMN users.hashed_password IS 'hashed_password';
-COMMENT ON COLUMN users.salt IS 'salt';
-COMMENT ON COLUMN users.reg_date IS 'reg_date';
+comment on table users is 'users';
+comment on column users.user_id is 'user_id';
+comment on column users.user_name is 'user_name';
+comment on column users.email is 'email';
+comment on column users.hashed_password is 'hashed_password';
+comment on column users.salt is 'salt';
+comment on column users.reg_date is 'reg_date';
+comment on column users.token is 'token';
+comment on column users.isverified is 'isverified';
 
