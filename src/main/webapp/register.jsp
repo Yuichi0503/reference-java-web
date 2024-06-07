@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 	<head>
 	<meta charset="UTF-8">
 	<title>登録画面</title>
@@ -10,8 +10,9 @@
 <body>
 
 
-	<form action="#" method="post">
+	<form action="/reference-java-web/signup" method="post">
 		<h2>Sign Up</h2>
+		<div class="error_msg">${msg}</div>
 		<p>
 			<label for="user_name" class="floatLabel">ユーザー名</label> <input id="user_name"
 				name="user_name" type="text" required>
