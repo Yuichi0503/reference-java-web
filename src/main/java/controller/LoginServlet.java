@@ -37,8 +37,7 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		//ログインチェック
 		if (Login.loginCheck(email, password)) {
-			var uDao = new UsersDao();
-			var entity = uDao.getEntity(email);
+			var entity = UsersDao.getEntity(email);
 			//ユーザ情報をセッションに保存
 			session.setAttribute("user_id", entity.getUser_id());
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
