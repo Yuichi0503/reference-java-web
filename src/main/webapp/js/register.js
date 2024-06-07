@@ -1,3 +1,4 @@
+
 //Problem: Hints are shown even when form is valid
 //Solution: Hide and show them at appropriate times
 var $password = $("#password");
@@ -19,7 +20,7 @@ function canSubmit() {
 }
 
 function passwordEvent(){
-    //Find out if password is valid  
+    //Find out if password is valid
     if(isPasswordValid()) {
       //Hide hint if valid
       $password.next().hide();
@@ -35,7 +36,7 @@ function confirmPasswordEvent() {
     //Hide hint if match
     $confirmPassword.next().hide();
   } else {
-    //else show hint 
+    //else show hint
     $confirmPassword.next().show();
   }
 }
@@ -45,9 +46,9 @@ function enableSubmitEvent() {
 }
 
 //When event happens on password input
-$password.focus(passwordEvent).keyup(passwordEvent).keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
+$password.keyup(passwordEvent).keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
 
 //When event happens on confirmation input
-$confirmPassword.focus(confirmPasswordEvent).keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
+$confirmPassword.keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
 
 enableSubmitEvent();

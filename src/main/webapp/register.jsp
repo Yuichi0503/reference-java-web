@@ -13,28 +13,31 @@
 	<form action="#" method="post">
 		<h2>Sign Up</h2>
 		<p>
-			<label for="userid" class="floatLabel">UserID</label> <input id="userid"
-				name="userid" type="text" required>
+			<label for="user_name" class="floatLabel">ユーザー名</label> <input id="user_name"
+				name="user_name" type="text" required>
 		</p>
 		<p>
-			<label for="email" class="floatLabel">email</label> <input id="email"
+			<label for="email" class="floatLabel">メールアドレス</label> <input id="email"
 				name="email" type="email" required>
 		</p>
 		<p>
-			<label for="password" class="floatLabel">Password</label> <input
+			<label for="password" class="floatLabel">パスワード</label> <input
 				id="password" name="password" type="password" required> <span>Enter
 				a password longer than 8 characters</span>
 		</p>
 		<p>
-			<label for="confirm_password" class="floatLabel">Confirm
-				Password</label> <input id="confirm_password" name="confirm_password"
+			<label for="confirm_password" class="floatLabel">パスワード再入力</label> <input id="confirm_password" name="confirm_password"
 				type="password" required> <span>Your passwords do not match</span>
 		</p>
 		<p>
 			<input type="submit" value="Create My Account" id="submit">
 		</p>
 	</form>
-	
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 	<script src="./js/register.js"></script>
 </body>
 </html>
