@@ -86,4 +86,115 @@ public class UsersDao {
 		return false;
 	}
 	
+	//usersテーブルからtokenをkeyにentityを返す
+	/**
+	 * tokenをキーにuser_idを返す
+	 * @param token
+	 * @return String user_id or null
+	 */
+	public static String getUserIdByToken(String token) {
+		String sql =  "SELECT user_id\n"
+                    + "FROM users\n"
+                    + "WHERE token = ?\n";
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				) {
+			pstmt.setString(1, token);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("user_id");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * user_id該当レコードのuser_nameを変更
+	 * @param userId
+	 * @param newUserName
+	 * @return true or false
+	 */
+	public static boolean updateUserName(String userId, String newUserName) {
+		String sql = "UPDATE users SET user_name = ? WHERE user_id = ?";
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, newUserName);
+			pstmt.setString(2, userId);
+			int result = pstmt.executeUpdate();
+			return result == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * user_id該当レコードのhashed_passwordとsaltを変更
+	 * @param userId
+	 * @param newHashedPassword
+	 * @param newSalt
+	 * @return true or false
+	 */
+	public static boolean updatePasswordAndSalt(String userId, String newHashedPassword, String newSalt) {
+		String sql = "UPDATE users SET hashed_password = ?, salt = ? WHERE user_id = ?";
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, newHashedPassword);
+			pstmt.setString(2, newSalt);
+			pstmt.setString(3, userId);
+			int result = pstmt.executeUpdate();
+			return result == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * user_id該当レコードのis_verifiedを変更
+	 * @param userId
+	 * @param newIsVerified
+	 * @return true or false
+	 */
+	public static boolean updateIsVerified(String userId, boolean newIsVerified) {
+		String sql = "UPDATE users SET is_verified = ? WHERE user_id = ?";
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setBoolean(1, newIsVerified);
+			pstmt.setString(2, userId);
+			int result = pstmt.executeUpdate();
+			return result == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
