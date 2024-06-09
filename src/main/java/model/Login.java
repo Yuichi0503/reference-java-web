@@ -7,8 +7,7 @@ public class Login {
 	
 	public static boolean loginCheck(String email, String input_password) {
 		//daoを利用してemailを元にレコードを取得
-		UsersDao dao = new UsersDao();
-		var entity = dao.getEntity(email);
+		var entity = UsersDao.getEntity(email);
 		//entityがなければfalse
 		if (entity == null) {
 			return false;
