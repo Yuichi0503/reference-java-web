@@ -76,6 +76,7 @@
 
 # 備考
 - WEB-INF/classesにpropertiesファイルを追加すること
+- WEB-INF直下にGmailAPIのOAuth 2.0クライアントIDのJSONファイルを追加すること
 - jspが実行できない場合、プロジェクトファセットの動的webモジュールのバージョンを5.0に変更
 - jdbcが読み込めない場合、Class.forName()を追記
 - tomcat10の為jakartaでimport
