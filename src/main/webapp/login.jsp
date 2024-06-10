@@ -26,7 +26,7 @@
 		</form>
 		<div class="form-footer">
 			<p>
-				<a href="register.jsp">Create an account</a>
+				<a href="signup.jsp">Create an account</a>
 			</p>
 			<p>
 				<a href="#">Forgot password?</a>
