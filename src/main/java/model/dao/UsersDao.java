@@ -178,10 +178,10 @@ public class UsersDao {
 	/**
 	 * user_id該当レコードのis_verifiedを変更
 	 * @param userId
-	 * @param newIsVerified
+	 * @param isVerified
 	 * @return true or false
 	 */
-	public static boolean updateIsVerified(String userId, boolean newIsVerified) {
+	public static boolean updateIsVerified(String userId, boolean isVerified) {
 		String sql = "UPDATE users SET is_verified = ? WHERE user_id = ?";
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -191,7 +191,7 @@ public class UsersDao {
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
-			pstmt.setBoolean(1, newIsVerified);
+			pstmt.setBoolean(1, isVerified);
 			pstmt.setString(2, userId);
 			int result = pstmt.executeUpdate();
 			return result == 1;
