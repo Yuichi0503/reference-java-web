@@ -51,14 +51,14 @@ public class SignUpServlet extends HttpServlet {
 			String msg = "未入力の項目があります";
 			request.setAttribute("msg", msg);
 			//フォワード
-			request.getRequestDispatcher("/register.jsp").forward(request, response);
+			request.getRequestDispatcher("/signup.jsp").forward(request, response);
 		}
 		if (password.equals(confirm_password) == false) {
 			//エラー処理
 			String msg = "パスワードが一致しません";
 			request.setAttribute("msg", msg);
 			//フォワード
-			request.getRequestDispatcher("/register.jsp").forward(request, response);
+			request.getRequestDispatcher("/signup.jsp").forward(request, response);
 
 		}
 		
@@ -67,7 +67,7 @@ public class SignUpServlet extends HttpServlet {
 			String msg = "このメールアドレスは既に登録されています";
 			request.setAttribute("msg", msg);
 			//フォワード
-			request.getRequestDispatcher("/register.jsp").forward(request, response);
+			request.getRequestDispatcher("/signup.jsp").forward(request, response);
 		}
 		
 		//ユーザーを作成
@@ -78,7 +78,7 @@ public class SignUpServlet extends HttpServlet {
 			String msg = "登録に失敗しました";
 			request.setAttribute("msg", msg);
 			//フォワード
-			request.getRequestDispatcher("/register.jsp").forward(request, response);
+			request.getRequestDispatcher("/signup.jsp").forward(request, response);
 		}
 		//エラーがなければ、認証メールを送信
 		ServletContext servletContext = this.getServletContext();
