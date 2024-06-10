@@ -39,10 +39,14 @@ public class UsersDao {
 			pstmt.setString(1, email);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
+				entity.setUser_id(rs.getString("user_id"));
+				entity.setUser_name(rs.getString("user_name"));
 	            entity.setEmail(rs.getString("email")); 
 	            entity.setHashed_password(rs.getString("hashed_password")); 
 	            entity.setSalt(rs.getString("salt"));
 	            entity.setReg_date(rs.getDate("reg_date").toLocalDate());
+	            entity.setToken(rs.getString("token"));
+	            entity.setVerified(rs.getBoolean("is_verified"));
 	            return entity;
 	        }
 		} catch (Exception e) {
@@ -174,10 +178,10 @@ public class UsersDao {
 	/**
 	 * user_id該当レコードのis_verifiedを変更
 	 * @param userId
-	 * @param newIsVerified
+	 * @param isVerified
 	 * @return true or false
 	 */
-	public static boolean updateIsVerified(String userId, boolean newIsVerified) {
+	public static boolean updateIsVerified(String userId, boolean isVerified) {
 		String sql = "UPDATE users SET is_verified = ? WHERE user_id = ?";
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -187,7 +191,7 @@ public class UsersDao {
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
-			pstmt.setBoolean(1, newIsVerified);
+			pstmt.setBoolean(1, isVerified);
 			pstmt.setString(2, userId);
 			int result = pstmt.executeUpdate();
 			return result == 1;

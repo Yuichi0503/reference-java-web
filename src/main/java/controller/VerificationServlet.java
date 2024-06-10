@@ -12,7 +12,7 @@ import model.dao.UsersDao;
 /**
  * Servlet implementation class VerificationServlet
  */
-@WebServlet("/verification")
+@WebServlet("/verify")
 public class VerificationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,12 +30,16 @@ public class VerificationServlet extends HttpServlet {
         String token = request.getParameter("token");
 
         // Find the user with this token in the database
-        //TODO
        String userId = UsersDao.getUserIdByToken(token);
         if (userId != null) {
             // Verify the user
         	UsersDao.updateIsVerified(userId, true);
-        }
+        	request.setAttribute("msg", "認証に成功しました。<br>ログインしてください。");
+        	request.getRequestDispatcher("login.jsp").forward(request, response);
+		} else {
+			request.setAttribute("msg", "認証に失敗しました。");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
     }
 
 	/**
