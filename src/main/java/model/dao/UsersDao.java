@@ -39,10 +39,14 @@ public class UsersDao {
 			pstmt.setString(1, email);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
+				entity.setUser_id(rs.getString("user_id"));
+				entity.setUser_name(rs.getString("user_name"));
 	            entity.setEmail(rs.getString("email")); 
 	            entity.setHashed_password(rs.getString("hashed_password")); 
 	            entity.setSalt(rs.getString("salt"));
 	            entity.setReg_date(rs.getDate("reg_date").toLocalDate());
+	            entity.setToken(rs.getString("token"));
+	            entity.setVerified(rs.getBoolean("is_verified"));
 	            return entity;
 	        }
 		} catch (Exception e) {
