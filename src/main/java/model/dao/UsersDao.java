@@ -14,6 +14,7 @@ public class UsersDao {
 	private static final String URL = bundle.getString("dbURL");
 	private static final String USER = bundle.getString("dbUSER");
 	private static final String PASS = bundle.getString("dbPASS");
+	private static final String FOR_NAME = bundle.getString("FOR_NAME");
 	
 	
 	/**
@@ -27,7 +28,7 @@ public class UsersDao {
 					+ "FROM users\n"
 					+ "WHERE email = ?\n";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
