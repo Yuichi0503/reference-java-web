@@ -61,6 +61,15 @@ public class SignUpServlet extends HttpServlet {
 			request.getRequestDispatcher("/register.jsp").forward(request, response);
 
 		}
+		
+		if (UsersDao.getEntity(email) != null) {
+			//エラー処理
+			String msg = "このメールアドレスは既に登録されています";
+			request.setAttribute("msg", msg);
+			//フォワード
+			request.getRequestDispatcher("/register.jsp").forward(request, response);
+		}
+		
 		//ユーザーを作成
 		var user = UsersService.createUser(user_name, password, email);
 		//DBに保存
