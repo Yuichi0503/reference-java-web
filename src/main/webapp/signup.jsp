@@ -5,7 +5,7 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>登録画面</title>
-	<link rel="stylesheet" href="./css/register.css" />
+	<link rel="stylesheet" href="./css/signup.css" />
 </head>
 <body>
 
