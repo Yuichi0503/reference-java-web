@@ -93,6 +93,8 @@
 	- `<%@ taglib prefix="fn"uri="jakarta.tags.functions" %>`	
 - ReferenceTypeへのアクセスにはReferenceTypeメソッドの  
   refTypeObject("refTypeName")を使う
+	- “question”, “reg-id”, “answer”, “crt-date”, “solution”, “keyword”, “class”, “res-type”, “bibl”, “ans-proc”, “pre-res”, “ptn-type”, “note”, “system”, “url”, “con-type”, “referral”, “contri”
+- ReferenceTypeの要素にアクセスするには、ReferenceTypeに対してgetterを利用(XMLではハイフン区切りケバブケースだが,キャメルケースに変更)
 	
 
 # テーブル一覧
