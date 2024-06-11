@@ -8,6 +8,8 @@
 
 package model.bean;
 
+import java.io.Serializable;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -41,7 +43,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "errFld",
     "errMsg"
 })
-public class ErrItemType {
+public class ErrItemType implements Serializable {
 
     @XmlElement(name = "err_code", required = true)
     protected String errCode;

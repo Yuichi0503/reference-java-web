@@ -8,7 +8,10 @@
 
 package model.bean;
 
+import java.io.Serializable;
+
 import javax.xml.namespace.QName;
+
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
@@ -29,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlRegistry;
  * 
  */
 @XmlRegistry
-public class ObjectFactory {
+public class ObjectFactory implements Serializable{
 
     private final static QName _ResultSet_QNAME = new QName("", "result_set");
     private final static QName _ReferenceTypeQuestion_QNAME = new QName("", "question");

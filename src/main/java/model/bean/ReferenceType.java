@@ -8,6 +8,7 @@
 
 package model.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ import jakarta.xml.bind.annotation.XmlType;
 @XmlType(name = "referenceType", propOrder = {
     "questionOrRegIdOrAnswer"
 })
-public class ReferenceType {
+public class ReferenceType implements Serializable{
 
     @XmlElementRefs({
         @XmlElementRef(name = "question", type = JAXBElement.class, required = false),

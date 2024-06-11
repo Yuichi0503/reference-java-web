@@ -8,6 +8,8 @@
 
 package model.bean;
 
+import java.io.Serializable;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -37,7 +39,7 @@ import jakarta.xml.bind.annotation.XmlType;
 @XmlType(name = "err_listType", propOrder = {
     "errItem"
 })
-public class ErrListType {
+public class ErrListType implements Serializable{
 
     @XmlElement(name = "err_item", required = true)
     protected ErrItemType errItem;
