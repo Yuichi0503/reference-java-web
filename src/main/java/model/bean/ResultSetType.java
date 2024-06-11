@@ -8,8 +8,10 @@
 
 package model.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -49,7 +51,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "errList",
     "result"
 })
-public class ResultSetType {
+public class ResultSetType implements Serializable {
 
     @XmlElement(name = "hit_num", required = true)
     protected String hitNum;
