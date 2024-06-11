@@ -99,8 +99,12 @@ public class ReferenceApi {
 	public ResultSetType getBeanBySys_id(String sys_id) {
 		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference";
 		
-		String query = "&query=sys-id%20any%20" + sys_id;
-		
+		try {
+			sys_id = codec.encode(sys_id, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String query = "&query=sys-id%20any%20" + sys_id;		
 		
 		try {
 			String xmlString = getUrlResponse(apiString + query);
