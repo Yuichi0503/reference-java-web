@@ -98,8 +98,10 @@
 								<input type="hidden" name="searchText" value="${searchText}">
 								<input type="hidden" name="page" value="${page}">
 							</form>
-							<form action="">
+							<form action="/reference-java-web/fav">
 								<button class="btn btn-warning">お気に入り</button>
+								<input type="hidden" name="sys_id" 
+								value="${rec.reference.refTypeObject('system').sysId}">
 							</form>
 						</div>
 					</div>
