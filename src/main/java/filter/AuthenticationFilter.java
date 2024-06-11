@@ -30,8 +30,10 @@ public class AuthenticationFilter implements Filter {
 		String requestURI = request.getRequestURI().substring(contextPath.length());
 		
 		// ログインとサインアップのURIを定義
-		String loginURI = "/login.jsp";
-		String signUpURI = "/signup.jsp";
+		String loginURI = "/login";
+		String loginJspURI = "/login.jsp";
+		String signUpURI = "/signup";
+		String signUpJspURI = "/signup.jsp";
 		
 		// ユーザーがログインしているか、もしくは未ログインでもアクセス可能なリクエスト
 		// (ログイン、サインアップ、CSS、JS)の場合は、フィルターを通過させる
@@ -42,7 +44,7 @@ public class AuthenticationFilter implements Filter {
 		boolean jsRequest = requestURI.endsWith(".js");
 		
 		//条件に合わなければログインページへフォワードする
-		if (loggedIn || loginRequest || signUpRequest || cssRequest || jsRequest) {
+		if (loggedIn || loginRequest || signUpRequest || cssRequest || jsRequest || requestURI.equals(loginJspURI) || requestURI.equals(signUpJspURI)) {
 			chain.doFilter(request, response);
 		} else {
 			request.setAttribute("msg", "再度ログインしてください。");
