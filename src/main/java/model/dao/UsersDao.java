@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
-import model.bean.UsersEntity;
+import model.entity.UsersEntity;
 
 public class UsersDao {
 	
