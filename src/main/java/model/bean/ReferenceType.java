@@ -129,7 +129,11 @@ public class ReferenceType implements Serializable{
         }
         return this.questionOrRegIdOrAnswer;
     }
-    //追記
+    /**
+     * 指定されたrefTypeNameに一致する要素を返します。
+     * @param refTypeName 要素名
+     * @return 一致する要素
+     */
     public Object refTypeObject(String refTypeName) {
     	for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
 	        // "refTypeName"という名前の要素を探す
@@ -141,6 +145,11 @@ public class ReferenceType implements Serializable{
 		
 	}
     
+    /**
+     * 指定されたrefTypeNameに一致する要素をすべて返します。
+     * @param refTypeName 要素名
+     * @return 一致する要素のリスト
+     */
     public List<Object> refTypeAllObjects(String refTypeName) {
         List<Object> matchingElements = new ArrayList<>();
         for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
@@ -149,6 +158,57 @@ public class ReferenceType implements Serializable{
             }
         }
         return matchingElements;
+    }
+    
+    
+    /**
+     * questionの値を取得します。
+     * @return	questionの値
+     */
+    public String getQuestion() {
+    	for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
+	        if ("question".equals(element.getName().getLocalPart())) {
+	            return (String) element.getValue();
+	        }
+	    }
+		return null;
+		
+	}
+    /**
+     * answerの値を取得します。
+     * @return answerの値
+     */
+    public String getAnswer() {
+    	for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
+    		if ("answer".equals(element.getName().getLocalPart())) {
+    			return (String) element.getValue();
+    		}
+    	}
+    	return null;
+    	
+    }
+    /**
+     * sys-idの値を取得します。
+     * @return sys-idの値
+     */
+    public String getSysId() {
+    	for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
+    		if ("system".equals(element.getName().getLocalPart())) {
+    			return ((SystemType) element.getValue()).getSysId();
+    		}
+    	}
+    	return null;
+    	
+    }
+    
+    public String getKeyword() {
+    	String keyword = "";
+        for (JAXBElement<?> element : questionOrRegIdOrAnswer) {
+            if ("keyword".equals(element.getName().getLocalPart())) {
+                keyword += element.getValue() + " ";
+            }
+        }
+        return keyword;
     }
 
 

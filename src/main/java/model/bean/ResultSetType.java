@@ -213,5 +213,17 @@ public class ResultSetType implements Serializable {
         }
         return this.result;
     }
+    
+    /**
+     * 指定されたindexに一致するReferenceを返します。
+     * @param index 要素番号
+     * @return 一致するReference
+     */
+    public ReferenceType getReference(int index) {
+    	if (result == null) {
+    		return null;
+    	}
+    	return result.get(index).getReference();
+    }
 
 }
