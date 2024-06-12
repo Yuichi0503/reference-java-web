@@ -14,7 +14,7 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import model.bean.ResultSetType;
-import model.bean.SystemType;
+import model.dao.FavoritesDao;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -59,7 +59,9 @@ public class ApiTest {
 //						bean.getResult().get(0).getReference().getQuestionOrRegIdOrAnswer().get(i).getValue());
 //			}
 		    
-		    var elements = bean.getResult().get(0).getReference();
+		    var elements = bean.getReference(4);
+		    System.out.println(elements.getKeyword());
+		    FavoritesDao.addFavorite("ddc501ad6cc9ac150e586c9078568c4e249a66dec5333114c1ddfd7da58a2b5", bean, 4);
 //		    for (JAXBElement<?> element : elements) {
 //		        // "?"という名前の要素を探す
 //		        if ("question".equals(element.getName().getLocalPart())) {
@@ -70,9 +72,9 @@ public class ApiTest {
 //		        }
 //		    }
 		    
-		    System.out.println(elements.refTypeObject("question"));
-		    System.out.println(((SystemType)elements.refTypeObject("system")).getLibName());
-		    System.out.println(elements.refTypeAllObjects("keyword"));
+//		    System.out.println(elements.refTypeObject("question"));
+//		    System.out.println(((SystemType)elements.refTypeObject("system")).getLibName());
+//		    System.out.println(elements.refTypeAllObjects("keyword"));
 		    
 //		    for (JAXBElement<?> element : elements) {
 //		        // "system"という名前の要素を探す
