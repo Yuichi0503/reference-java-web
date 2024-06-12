@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import model.bean.ResultSetType;
+import model.entity.FavoritesEntity;
 
 public class FavoritesDao {
 
@@ -40,15 +41,15 @@ public class FavoritesDao {
 	 * @param index Referenceのインデックス
 	 */
 	public static void addFavorite(String userId, ResultSetType bean, int index) {
-		String sql =  "INSERT INTO favorites (user_id, sys_id, question, answer, keyword, saved_at) "
-					+ "VALUES (?, ?, ?, ?, ?, NOW())";
+		String sql = "INSERT INTO favorites (user_id, sys_id, question, answer, keyword, saved_at) "
+				   + "VALUES (?, ?, ?, ?, ?, NOW())";
 		try {
 			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-			PreparedStatement pstmt = conn.prepareStatement(sql);
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+			PreparedStatement pstmt = con.prepareStatement(sql);
 				
 				) {
 			pstmt.setString(1, userId);
@@ -62,17 +63,39 @@ public class FavoritesDao {
 		}
 	}
 	
-	 public static List<ResultSetType> getFavoritesByUserId(String userId) {
-	        List<ResultSetType> favorites = new ArrayList<>();
-	        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-	            String sql = "SELECT * FROM favorites WHERE user_id = ? ORDER BY saved_at DESC";
-	            PreparedStatement pstmt = conn.prepareStatement(sql);
+	/**
+	 * ユーザーIDと検索ワードを元に、favoritesテーブルからお気に入りを取得する
+	 * @param userId ユーザーID
+	 * @param searchText 検索ワード
+	 * @return FavoritesEntityのリスト
+	 */
+	public static List<FavoritesEntity> getFavoritesByUserId(String userId, String searchText) {
+		 //TODO check
+	        List<FavoritesEntity> favorites = new ArrayList<>();
+	        
+	        searchText = "%" + searchText + "%";
+	        
+	        String sql = "SELECT * FROM favorites "
+	                   + "WHERE user_id = ? "
+	                   + "AND (question LIKE ? OR answer LIKE ? OR keyword LIKE ?) "
+	                   + "ORDER BY saved_at DESC";
+	        try (
+	        		Connection con = DriverManager.getConnection(URL, USER, PASS);
+	        		PreparedStatement pstmt = con.prepareStatement(sql);
+	        		) {
 	            pstmt.setString(1, userId);
+	            pstmt.setString(2, searchText);
+	            pstmt.setString(3, searchText);
+	            pstmt.setString(4, searchText);
 	            ResultSet rs = pstmt.executeQuery();
 	            while (rs.next()) {
-	                ResultSetType bean = new ResultSetType();
-	                // Set bean properties from ResultSet
-	                favorites.add(bean);
+					favorites.add(new FavoritesEntity(
+							rs.getString("user_id"),
+							rs.getString("sys_id"),
+							rs.getString("question"),
+							rs.getString("answer"),
+							rs.getString("keyword"),
+							rs.getTimestamp("saved_at").toLocalDateTime() ));
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
