@@ -27,17 +27,37 @@ public class FavListServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//ユーザーIDと検索ワードを元に、favoritesテーブルからお気に入りを取得する
-		var session = request.getSession();
-		var user_id = (String)session.getAttribute("user_id");
-		var searchText = request.getParameter("searchText");
-		var favList = FavoritesDao.getFavListByUserId(user_id, searchText);
-		
-		//お気に入り一覧をリクエストにセット
-		request.setAttribute("favList", favList);
-		//お気に入り一覧ページにフォワード
-		request.getRequestDispatcher("/favList.jsp").forward(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        var session = request.getSession();
+        var user_id = (String)session.getAttribute("user_id");
+
+        if (request.getParameter("favDelete") != null) {
+            deleteFavorite(request, response, user_id);
+        } 
+        
+        displayFavorites(request, response, user_id);
+        
+        request.getRequestDispatcher("/favList.jsp").forward(request, response);
+    }
+
+    private void deleteFavorite(HttpServletRequest request, HttpServletResponse response, String user_id) throws ServletException, IOException {
+        try {
+            var sys_id = request.getParameter("sys_id");
+            FavoritesDao.deleteFavorite(user_id, sys_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void displayFavorites(HttpServletRequest request, HttpServletResponse response, String user_id) throws ServletException, IOException {
+        try {
+            var searchText = request.getParameter("searchText");//nullの場合は全件取得
+            var favList = FavoritesDao.getFavListByUserId(user_id, searchText);
+            request.setAttribute("favList", favList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
 
 }
