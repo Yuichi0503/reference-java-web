@@ -13,17 +13,34 @@
 <body>
 	<jsp:include page="header.jsp" />
 	<div class="container-md">
+
+		<c:if test="${favList.isEmpty()}">
+			<div class="alert alert-info mt-5" role="alert">
+				お気に入り登録されたデータはありません。</div>
+		</c:if>
 		<c:forEach var="rec" items="${favList}">
-			<div class="simple_result_list_box mt-4">
+			<div class="simple_result_list_box mt-5">
 				<ul class="simple_result_ul">
 					<div class="card text-center">
 						<div class="card-body">
 							<h5 class="card-title">質問</h5>
-							<p class="card-text">${rec.question}</p>
+							<c:set var="question"
+								value="${fn:replace(rec.question, '。', '。<br/>')}" />
+							<c:set var="question"
+								value="${fn:replace(question, '。<br/>」', '。」')}" />
+							<p class="card-text">${question}</p>
 							<h5 class="card-title">回答</h5>
-							<p class="card-text">${rec.answer}</p>
+							<c:set var="answer"
+								value="${fn:replace(rec.answer, '。', '。<br/>')}" />
+							<c:set var="answer"
+								value="${fn:replace(answer, '。<br/>」', '。」')}" />
+							<p class="card-text">${answer}</p>
 							<a href="#" class="btn btn-primary">詳細ページ</a>
-							<a href="#" class="btn btn-warning">お気に入り解除</a>
+							<form action="/reference-java-web/favlist" method="post">
+								<button class="btn btn-warning" type="submit">お気に入り解除</button>
+								<input type="hidden" name="sys_id" value="${rec.sys_id}" />
+								<input type="hidden" name="favDelete" value="1" />
+							</form>
 						</div>
 						<div class="card-footer text-body-secondary">
 						<span>保存日:
