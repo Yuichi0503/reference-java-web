@@ -66,7 +66,7 @@
 
 
 		<c:forEach var="rec" items="${rsBean.result}" varStatus="status">
-			<div class="simple_result_list_box mt-4">
+			<div class="simple_result_list_box mt-4" id="${status.index}">
 				<div class="card text-center">
 					<div class="card-body">
 						<c:set var="solution"
@@ -115,7 +115,7 @@
 									value="${rec.reference.refTypeObject('system').sysId}">
 								<input type="hidden" name="searchText" value="${searchText}">
 								<input type="hidden" name="page" value="${page}"> <input
-									type="hidden" name="index" value="${status.index}"">
+									type="hidden" name="index" value="${status.index}">
 							</form>
 						</div>
 					</div>
@@ -192,5 +192,12 @@
 
 	</div>
 	<jsp:include page="footer.jsp" />
+<%-- 	<c:if test="${not empty id}"> --%>
+<!-- 		<script> -->
+// 			document.addEventListener("DOMContentLoaded", function() {
+// 				location.hash = "#${id}";
+// 			});
+<!-- 		</script> -->
+<%-- 	</c:if> --%>
 </body>
 </html>

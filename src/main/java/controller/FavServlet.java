@@ -38,6 +38,7 @@ public class FavServlet extends HttpServlet {
 		//daoを呼び出しDBに登録/削除
 		FavoritesDao.toggleFavorite(user_id, bean, index);
 		//登録/削除が成功したらresult.jspに戻る
+		request.setAttribute("id", index);
 		request.getRequestDispatcher("/search").forward(request, response);
 		//TODO 登録/削除が失敗したらエラーページに飛ばす
 		
