@@ -7,7 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.ReferenceApi;
+import model.bean.ResultSetType;
+import model.dao.FavoritesDao;
 
 /**
  * Servlet implementation class FavServlet
@@ -27,13 +28,18 @@ public class FavServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//result.jspからsys_idを受け取る
-		String sys_id = request.getParameter("sys_id");
-		//TODO sys_idを元にBeanを取得
-		var bean =new ReferenceApi().getBeanBySys_id(sys_id);
-		//sessionのuser_idとsys_idおよびbeanをDBに登録
-		//登録成功したらresult.jspに戻る
-		//登録失敗したらエラーページに飛ばす
+		//呼び出し元からuser_idとbeanとsearchTextとpageおよびindexを受け取る
+		var session = request.getSession();
+		var user_id = (String)session.getAttribute("user_id");
+		var searchText = request.getParameter("searchText");
+		var page = request.getParameter("page");
+		var index = Integer.parseInt(request.getParameter("index") );
+		var bean = (ResultSetType)session.getAttribute(searchText + page);
+		//daoを呼び出しDBに登録/削除
+		FavoritesDao.toggleFavorite(user_id, bean, index);
+		//登録/削除が成功したらresult.jspに戻る
+		request.getRequestDispatcher("/search").forward(request, response);
+		//TODO 登録/削除が失敗したらエラーページに飛ばす
 		
 	}
 

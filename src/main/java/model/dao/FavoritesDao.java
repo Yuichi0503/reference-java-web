@@ -21,18 +21,51 @@ public class FavoritesDao {
 	private static final String FOR_NAME = bundle.getString("FOR_NAME");
 
 	//TODO  デフォルトで全件表示/検索も可能
-	//データベースからお気に入りentityのリストを取得
-	//servletはリストをjspに渡す
-	//jspはリストをforeachで回して表示する
 
 	//servletはsys_idをwebAPIに渡し、beanを取得する
-	//favdetail.jspに遷移するリンクを表示
+	//favdetail.jspもしくはdetail.jspに遷移するリンクを表示
+	
+	//result.jspにお気に入りのsys_idを渡しお気に入りボタンの表示を変える
 
-	//	public List<Favorite> getFavoritesByUserId(String userId) {
-	//	    // SQLを実行してお気に入りを取得
-	//	-- ユーザーのお気に入りを取得
-	//	SELECT * FROM favorites WHERE user_id = ? ORDER BY saved_at DESC;
-	//	}
+	/**
+	 * お気に入りのトグル処理を行う
+	 * @param user_id
+	 * @param bean
+	 * @param index
+	 */
+	public static void toggleFavorite(String user_id, ResultSetType bean, int index) {
+        String sys_id = bean.getReference(index).getSysId();
+        if (isFavorite(user_id, sys_id)) {
+            deleteFavorite(user_id, sys_id);
+        } else {
+            addFavorite(user_id, bean, index);
+        }
+    }
+	
+	/**
+	 * user_idとsys_idを元にfavoritesテーブルに登録されているか確認する
+	 * @param user_id
+	 * @param sys_id
+	 * @return 登録されている場合true、されていない場合false
+	 */
+	public static boolean isFavorite(String user_id, String sys_id) {
+		String sql = "SELECT * FROM favorites WHERE user_id = ? AND sys_id = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, user_id);
+			pstmt.setString(2, sys_id);
+			ResultSet rs = pstmt.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	/**
 	 * favoritesテーブルにuserIdとbeanの情報と日時を追加する
@@ -64,15 +97,38 @@ public class FavoritesDao {
 	}
 	
 	/**
+	 * user_idとsys_idを元にfavoritesテーブルからお気に入りを削除する
+	 * @param user_id
+	 * @param sys_id
+	 */
+	public static void deleteFavorite(String user_id, String sys_id) {
+		String sql = "DELETE FROM favorites WHERE user_id = ? AND sys_id = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, user_id);
+			pstmt.setString(2, sys_id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * ユーザーIDと検索ワードを元に、favoritesテーブルからお気に入りを取得する
 	 * @param userId ユーザーID
 	 * @param searchText 検索ワード
 	 * @return FavoritesEntityのリスト
 	 */
-	public static List<FavoritesEntity> getFavoritesByUserId(String userId, String searchText) {
-		 //TODO check
+	public static List<FavoritesEntity> getFavListByUserId(String userId, String searchText) {
 	        List<FavoritesEntity> favorites = new ArrayList<>();
-	        
+			if (searchText == null) {
+				searchText = "";
+			}
 	        searchText = "%" + searchText + "%";
 	        
 	        String sql = "SELECT * FROM favorites "
