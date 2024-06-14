@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.ReferenceApi;
 import model.bean.ResultSetType;
+import model.dao.FavoritesDao;
 
 /**
  * Servlet implementation class SearchServlet
@@ -37,18 +39,43 @@ public class SearchServlet extends HttpServlet implements Servlet {
         if (page == null) {
             page = "1";
         }
+        
+        //セッションからsys_idのリストを取得
+        @SuppressWarnings("unchecked")
+		List<String> favoriteSysIds = (List<String>) session.getAttribute("favoritesSysIds");
+		if (favoriteSysIds == null) {
+			// ユーザーIDを元にお気に入りのsys_idのリストを取得
+			String user_id = (String) session.getAttribute("user_id");
+			favoriteSysIds = FavoritesDao.getSysIdListByUserId(user_id);
+		}
+		// セッションスコープに保存
+		session.setAttribute("favoriteSysIds", favoriteSysIds);
 
-        var refApi = new ReferenceApi();
 
-        if (null == session.getAttribute(searchText + page)) {
-            handleNewSearch(request, response, session, RESULT_NUM, searchText, page, refApi);
-        } else {
-            handleExistingSearch(request, response, session, RESULT_NUM, searchText, page);
-        }
+		try {
+			//sys_idがあれば詳細ページに遷移
+			if(request.getParameter("sys_id") != null) {
+				goDetailPageBySysId(request, response, session, request.getParameter("sys_id"));
+			}
+			
+			//sys_idがなければ検索結果を表示
+			if (null == session.getAttribute(searchText + page)) {
+				handleNewSearch(request, response, session, RESULT_NUM, searchText, page);
+			} else {
+				handleExistingSearch(request, response, session, RESULT_NUM, searchText, page);
+
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
 
-    private void handleNewSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session, int RESULT_NUM, String searchText, String page, ReferenceApi refApi) throws ServletException, IOException {
+    private void handleNewSearch(HttpServletRequest request, HttpServletResponse response
+    		, HttpSession session, int RESULT_NUM, String searchText
+    		, String page) throws ServletException, IOException {
+        var refApi = new ReferenceApi();
         var rsBean = refApi.getResultSetPageBean(searchText, page);
         if (rsBean.getResultsCd().equals("0")) {
             session.setAttribute(searchText + page, rsBean);
@@ -70,7 +97,6 @@ public class SearchServlet extends HttpServlet implements Servlet {
         String id = request.getAttribute("id") != null ? request.getAttribute("id").toString() : null;
         if (id != null) {
             request.setAttribute("id", id);
-            request.getRequestDispatcher("/result.jsp").forward(request, response);
         }
         request.getRequestDispatcher("/result.jsp").forward(request, response);
     }
@@ -82,6 +108,17 @@ public class SearchServlet extends HttpServlet implements Servlet {
         request.setAttribute("page", Integer.parseInt(page));
         request.setAttribute("rsBean", rsBean);
     }
+    
+    //sys_idを元にbeanを取得indexは0でそれぞれリクエストスコープにセット、detail.jspに遷移
+	private void goDetailPageBySysId(HttpServletRequest request
+			, HttpServletResponse response, HttpSession session,
+			String sys_id) throws ServletException, IOException {
+		var refApi = new ReferenceApi();
+		var bean = refApi.getBeanBySys_id(sys_id);
+		request.setAttribute("rsBean", bean);
+		request.setAttribute("index", 0);
+		request.getRequestDispatcher("/detail.jsp").forward(request, response);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
