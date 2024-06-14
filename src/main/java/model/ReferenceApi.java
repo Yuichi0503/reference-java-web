@@ -20,6 +20,15 @@ public class ReferenceApi {
 	final static URLCodec codec = new URLCodec("UTF-8");
 	final String RESULTS_NUM = "&results_num=" + "25";
 	
+	
+	/**
+     * レファ協APIからResultSetTypeオブジェクトを取得するメソッドです。
+     * @param searchText レファ協APIで検索するテキスト。
+     * @param page レファ協APIから取得するページ。
+     * @return レファ協APIからの結果を含むResultSetTypeオブジェクト。
+     * @throws UnsupportedEncodingException searchTextがエンコードできない場合にスローされます。
+     * @throws IOException HTTPリクエストのエラーが発生した場合にスローされます。
+     */
 	public ResultSetType getResultSetPageBean(String searchText, String page) throws UnsupportedEncodingException, IOException{
 		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference";
 		
@@ -41,13 +50,6 @@ public class ReferenceApi {
 		    @SuppressWarnings("unchecked")
 			JAXBElement<ResultSetType> jaxbElement = (JAXBElement<ResultSetType>) unmarshaller.unmarshal(new StringReader(xmlString));
 		    ResultSetType bean = jaxbElement.getValue();
-
-		    // ここでbeanを使用して何かを行う
-		    // 例：bean.getResult()  List<ResultType>を返す
-		    //     bean.getResult().get(i).getReference() i件目のreferenceを返す
-//		    System.out.println(bean.getResultsCd());
-//		    System.out.println(bean.getResult().get(1).getReference().getQuestionOrRegIdOrAnswer().get(0).getValue());
-//		    System.out.println(bean.getResult().get(0).getReference().getQuestionOrRegIdOrAnswer().get(0).getValue());
 		    return bean;
 
 		} catch (JAXBException e) {
@@ -57,8 +59,14 @@ public class ReferenceApi {
 	}
 	
 	
-	
+	/**
+     * URLにGETリクエストを行い、レスポンスボディを文字列として返すメソッドです。
+     * @param url GETリクエストを行うURL。
+     * @return レスポンスボディを文字列として返します。
+     * @throws IOException HTTPリクエストのエラーが発生した場合にスローされます。
+     */
 	String getUrlResponse(String url) throws IOException {
+
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
@@ -72,6 +80,51 @@ public class ReferenceApi {
 				response.close();
 			}
 		}
+	}
+
+
+	/**
+	 * 指定されたsys_idに基づいてBeanを取得します。
+	 * 
+	 * <p>このメソッドは、指定されたsys_idをクエリパラメータとしてAPIエンドポイントにGETリクエストを送信します。
+	 * レスポンスとして返されたXMLデータをJavaオブジェクト（この場合はResultSetTypeオブジェクト）に変換し、
+	 * そのオブジェクトを返します。</p>
+	 *
+	 * <p>このメソッドはJAXBExceptionとIOExceptionをキャッチします。これらの例外は、XMLのアンマーシャル（Javaオブジェクトへの変換）や
+	 * HTTPリクエストの送信中に問題が発生した場合にスローされます。例外がキャッチされた場合、スタックトレースが出力され、メソッドはnullを返します。</p>
+	 *
+	 * @param sys_id Beanを取得するためのsys_id
+	 * @return 指定されたsys_idに基づいて取得されたBean。問題が発生した場合はnull
+	 */
+	public ResultSetType getBeanBySys_id(String sys_id) {
+		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference";
+		
+		try {
+			sys_id = codec.encode(sys_id, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String query = "&query=sys-id%20any%20" + sys_id;		
+		
+		try {
+			String xmlString = getUrlResponse(apiString + query);
+		    // JAXBContextインスタンスを作成
+		    JAXBContext context = JAXBContext.newInstance(ResultSetType.class);
+
+		    // Unmarshallerオブジェクトを作成
+		    Unmarshaller unmarshaller = context.createUnmarshaller();
+
+		    // StringReaderを使用してString型のXMLデータからJavaオブジェクトを生成
+		    @SuppressWarnings("unchecked")
+			JAXBElement<ResultSetType> jaxbElement = (JAXBElement<ResultSetType>) unmarshaller.unmarshal(new StringReader(xmlString));
+		    ResultSetType bean = jaxbElement.getValue();
+		    return bean;
+
+		} catch (JAXBException | IOException e) {
+		    e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 

@@ -8,6 +8,8 @@
 
 package model.bean;
 
+import java.io.Serializable;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -47,7 +49,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "libName",
     "fileNum"
 })
-public class SystemType {
+public class SystemType implements Serializable {
 
     @XmlElement(name = "reg-date", required = true)
     protected String regDate;

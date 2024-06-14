@@ -8,6 +8,8 @@
 
 package model.bean;
 
+import java.io.Serializable;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -37,7 +39,7 @@ import jakarta.xml.bind.annotation.XmlType;
 @XmlType(name = "resultType", propOrder = {
     "reference"
 })
-public class ResultType {
+public class ResultType implements Serializable {
 
     @XmlElement(required = true)
     protected ReferenceType reference;

@@ -8,6 +8,8 @@
 
 package model.bean;
 
+import java.io.Serializable;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -37,7 +39,7 @@ import jakarta.xml.bind.annotation.XmlValue;
 @XmlType(name = "classType", propOrder = {
     "value"
 })
-public class ClassType {
+public class ClassType implements Serializable {
 
     @XmlValue
     protected String value;

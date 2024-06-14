@@ -8,6 +8,8 @@
 
 package model.bean;
 
+import java.io.Serializable;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -41,7 +43,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "biblIsbn",
     "biblNote"
 })
-public class BiblType {
+public class BiblType implements Serializable {
 
     @XmlElement(name = "bibl-desc", required = true)
     protected String biblDesc;

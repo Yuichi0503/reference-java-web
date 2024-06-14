@@ -9,11 +9,11 @@
 	<title>詳細ページ</title>
 	<jsp:include page="head.jsp" />
 </head>
-<body class="bg-body-color">
+<body>
 	<jsp:include page="header.jsp" />
 	<c:set var="data" value="${rsBean.result[index].reference}"></c:set>
 	
-	<div class="container-md">
+	<div class="container-md py-4">
 		<div class="">
 			<h2 class="col mt-5 text-center">レファレンス事例詳細</h2>
 		</div>

@@ -22,7 +22,7 @@ create table users (
   , salt character varying(32) not null
   , reg_date date default now() not null
   , token character varying(255)
-  , isverified boolean default false
+  , is_verified boolean default false
 ) ;
 
 create unique index email_unique
@@ -36,5 +36,5 @@ comment on column users.hashed_password is 'hashed_password';
 comment on column users.salt is 'salt';
 comment on column users.reg_date is 'reg_date';
 comment on column users.token is 'token';
-comment on column users.isverified is 'isverified';
+comment on column users.is_verified is 'is_verified';
 

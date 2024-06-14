@@ -8,8 +8,10 @@
 
 package model.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -49,7 +51,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "errList",
     "result"
 })
-public class ResultSetType {
+public class ResultSetType implements Serializable {
 
     @XmlElement(name = "hit_num", required = true)
     protected String hitNum;
@@ -210,6 +212,18 @@ public class ResultSetType {
             result = new ArrayList<ResultType>();
         }
         return this.result;
+    }
+    
+    /**
+     * 指定されたindexに一致するReferenceを返します。
+     * @param index 要素番号
+     * @return 一致するReference
+     */
+    public ReferenceType getReference(int index) {
+    	if (result == null) {
+    		return null;
+    	}
+    	return result.get(index).getReference();
     }
 
 }

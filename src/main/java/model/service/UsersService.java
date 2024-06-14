@@ -1,7 +1,7 @@
 
 package model.service;
 
-import model.bean.UsersEntity;
+import model.entity.UsersEntity;
 
 public class UsersService {
 	/**
