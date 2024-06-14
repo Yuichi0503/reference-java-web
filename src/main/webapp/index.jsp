@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp" />
-	<div class="container-md">
+	<div class="container-md py-4">
 	
 	<form action="/reference-java-web/search" class="mt-5">
 		<div class="d-flex justify-content-center flex-wrap gap-3">
