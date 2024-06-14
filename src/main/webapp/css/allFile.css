@@ -11,3 +11,8 @@
 .card-footer{
 	background-color: #DCDCDC;
 }
+
+header,
+footer{
+    background-color: rgb(117, 183, 152);}
+}
