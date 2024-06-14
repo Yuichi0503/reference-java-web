@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -38,6 +39,13 @@ public class FavServlet extends HttpServlet {
 		//daoを呼び出しDBに登録/削除
 		FavoritesDao.toggleFavorite(user_id, bean, index);
 		//登録/削除が成功したらresult.jspに戻る
+		
+		// ユーザーIDを元にお気に入りのsys_idのリストを取得
+		List<String> favoriteSysIds = FavoritesDao.getSysIdListByUserId(user_id);
+		
+		//セッションスコープに保存
+		session.setAttribute("favoriteSysIds", favoriteSysIds);
+		
 		request.setAttribute("id", index);
 		request.getRequestDispatcher("/search").forward(request, response);
 		//TODO 登録/削除が失敗したらエラーページに飛ばす

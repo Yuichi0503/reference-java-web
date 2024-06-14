@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,6 +45,13 @@ public class FavListServlet extends HttpServlet {
         try {
             var sys_id = request.getParameter("sys_id");
             FavoritesDao.deleteFavorite(user_id, sys_id);
+            
+            // ユーザーIDを元にお気に入りのsys_idのリストを取得
+    		List<String> favoriteSysIds = FavoritesDao.getSysIdListByUserId(user_id);
+    		
+    		//セッションスコープに保存
+    		var session = request.getSession();
+    		session.setAttribute("favoriteSysIds", favoriteSysIds);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -159,4 +159,25 @@ public class FavoritesDao {
 	        return favorites;
 	    }
 	 
+	//user_idを元にsys_idのリストを取得する
+	public static List<String> getSysIdListByUserId(String userId) {
+		List<String> sysIdList = new ArrayList<>();
+		String sql = "SELECT sys_id FROM favorites WHERE user_id = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, userId);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				sysIdList.add(rs.getString("sys_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sysIdList;
+	}
 }
