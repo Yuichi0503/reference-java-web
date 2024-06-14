@@ -20,13 +20,6 @@ public class FavoritesDao {
 	private static final String PASS = bundle.getString("dbPASS");
 	private static final String FOR_NAME = bundle.getString("FOR_NAME");
 
-	//TODO  デフォルトで全件表示/検索も可能
-
-	//servletはsys_idをwebAPIに渡し、beanを取得する
-	//favdetail.jspもしくはdetail.jspに遷移するリンクを表示
-	
-	//result.jspにお気に入りのsys_idを渡しお気に入りボタンの表示を変える
-
 	/**
 	 * お気に入りのトグル処理を行う
 	 * @param user_id
