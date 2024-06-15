@@ -1,18 +1,42 @@
 @charset "UTF-8";
 
-.container-md{
-	background-color: #99CC66;
+header,
+footer{
+    background-color: #55AD9B;
 }
 
+body{
+	background-color: #D8EFD3;
+}
+
+.container-md{
+	background-color: #95D2B3;
+}
+
+.card-header,
 .card-body{
-	background-color: #FFFFCC;
+	background-color: #ffffdf;
 }
 
 .card-footer{
-	background-color: #DCDCDC;
+	background-color: #f4fbec;
 }
 
-header,
-footer{
-    background-color: rgb(117, 183, 152);}
+.rss2html-embed {
+	margin: 0px auto;
+	width: 80%;
+	/* 横幅を200pxに指定 */
+	height: 500px;
+	/* 横幅を200pxに指定 */
+	border: 1px solid #000;
+	/* わかりやすくボーダーを引く */
+	overflow-y: scroll;
+	/* 縦方向にスクロール可能にする */
+	
+	background-color: #ffffdf;
+}
+
+.simple_result_list_box {
+	max-width: 1000px;
+	margin: 0 auto;
 }
