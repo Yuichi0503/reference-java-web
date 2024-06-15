@@ -19,7 +19,11 @@
 							<button type="submit" class="nav-link btn-link">お気に入り</button>
 						</form>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">ログアウト</a></li>
+					<li class="nav-item">
+						<form action="/reference-java-web/logout" method="post">
+							<button type="submit" class="nav-link btn-link">ログアウト</button>
+						</form>
+					</li>
 				</ul>
 				<form class="d-flex" role="search"
 					action="/reference-java-web/search">
