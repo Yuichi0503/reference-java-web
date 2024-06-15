@@ -6,13 +6,14 @@
 	<meta charset="UTF-8">
 	<title>登録画面</title>
 	<link rel="stylesheet" href="./css/signup.css" />
+	<link rel="stylesheet" href="./css/allFile.css" />
 </head>
 <body>
 
 
 	<form action="/reference-java-web/signup" method="post">
 		<h2>Sign Up</h2>
-		<div class="error_msg">${msg}</div>
+		<div class="alert alert-info text-center">${msg}</div>
 		<p>
 			<label for="user_name" class="floatLabel">ユーザー名</label> <input id="user_name"
 				name="user_name" type="text" required>
