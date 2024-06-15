@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 	<meta charset="UTF-8">
 	<title>ログイン画面</title>
@@ -13,7 +14,9 @@
 	<div class="container">
 		<div class="form-wrapper">
 			<h1 style="color:#666666">Login</h1>
-			<div class="alert alert-info mt-2 text-center">${msg}</div>
+			<c:if test="${msg != null}">
+				<div class="alert alert-info mt-2 text-center">${msg}</div>
+			</c:if>
 			<form action="/reference-java-web/login" method="post">
 				<div class="form-item">
 					<label for="email"></label> <input type="email" name="email"
