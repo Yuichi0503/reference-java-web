@@ -12,8 +12,8 @@
 <body>
 	<div class="container">
 		<div class="form-wrapper">
-			<h1>Sign In</h1>
-			<div class="alert alert-info mt-5 text-center">${msg}</div>
+			<h1 style="color:#666666">Login</h1>
+			<div class="alert alert-info mt-2 text-center">${msg}</div>
 			<form action="/reference-java-web/login" method="post">
 				<div class="form-item">
 					<label for="email"></label> <input type="email" name="email"
@@ -24,7 +24,7 @@
 						name="password" required="required" placeholder="Password" value="${password}"></input>
 				</div>
 				<div class="button-panel">
-					<input type="submit" class="button" title="Sign In" value="Sign In"></input>
+					<input type="submit" class="button" value="login"></input>
 				</div>
 			</form>
 			<div class="form-footer">
