@@ -43,6 +43,7 @@
 						<form action="/reference-java-web/search" method="post">
 							<button class="btn btn-primary" type="submit">詳細ページ</button>
 							<input type="hidden" name="sys_id" value="${rec.sys_id}" />
+							<input type="hidden" name="detail" value="true" />
 						</form>
 						<form action="/reference-java-web/favlist" method="post">
 							<button class="btn btn-warning" type="submit">お気に入り解除</button>
