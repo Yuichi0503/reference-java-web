@@ -29,7 +29,7 @@
 					action="/reference-java-web/search">
 					<input class="form-control me-2" type="search" placeholder="Search"
 						aria-label="Search" name="searchText">
-					<button class="btn btn-outline-success" type="submit">Search</button>
+					<button class="btn btn-success" type="submit">Search</button>
 					<input type="hidden" name="page" value="1" />
 				</form>
 			</div>

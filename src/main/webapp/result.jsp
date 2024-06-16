@@ -69,7 +69,7 @@
 			<div class="pb-4 pt-4" id="item-${status.index}">
 				<div class="simple_result_list_box mt-4">
 					<div class="card text-center">
-						<div class="card-body">
+						<div class="card-header">
 							<c:set var="solution"
 								value="${rec.reference.refTypeObject('solution')}"></c:set>
 							<h5 class="card-title">質問</h5>
@@ -87,6 +87,8 @@
 									by:${rec.reference.refTypeObject('ptn-type')}
 								</c:if>
 							</p>
+						</div>
+						<div class="card-body">
 							<h5 class="card-title">
 								回答
 								<c:if test="${'1'.equals(solution)}">
@@ -115,11 +117,15 @@
 										<c:when
 											test="${favoriteSysIds.contains(rec.reference.refTypeObject('system').sysId)}">
 											<!-- お気に入りに追加されている場合のボタン -->
-											<button class="btn btn-warning" type="submit"><i class="bi bi-bookmark-check"></i>お気に入り済み</button>
+											<button class="btn btn-warning" type="submit">
+												<i class="bi bi-bookmark-check"></i>お気に入り済み
+											</button>
 										</c:when>
 										<c:otherwise>
 											<!-- お気に入りに追加されていない場合のボタン -->
-											<button class="btn btn-warning" type="submit"><i class="bi bi-bookmark"></i>お気に入り</button>
+											<button class="btn btn-warning" type="submit">
+												<i class="bi bi-bookmark"></i>お気に入り
+											</button>
 										</c:otherwise>
 									</c:choose>
 									<input type="hidden" name="sys_id"
