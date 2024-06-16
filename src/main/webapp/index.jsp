@@ -18,10 +18,13 @@
 			<input type="hidden" name="page" value="1"/>
 		</div>		
 	</form>
-	<form action="" class="mt-5 d-flex justify-content-center">
+	<form action="" class="my-5 d-flex justify-content-center">
 		<button type="submit" class="btn btn-secondary">ランダム検索</button>
 	</form>
-	
+		<script
+			src="https://embeds.rss2html.net/embed.js?url=https%3A%2F%2Fcrd.ndl.go.jp
+			%2Fjp%2Fpublic%2Frss2%2Frss.xml&amp;embed_render_title=0&amp;feed_render_image=0&amp;
+			feed_render_description=0&amp;item_render_body=0"></script>
 	</div>
 <jsp:include page="footer.jsp" />
 </body>
