@@ -16,7 +16,7 @@
 	<form action="/reference-java-web/signup" method="post">
 		<h2>Sign Up</h2>
 		<c:if test="${msg != null}">
-			<div class="alert alert-info mt-2 text-center">${msg}</div>
+			<div class="alert alert-info mt-2 text-center" id="msg">${msg}</div>
 		</c:if>
 		<p>
 			<label for="user_name" class="floatLabel">ユーザー名</label> <input id="user_name"
