@@ -53,13 +53,13 @@ public class SearchServlet extends HttpServlet implements Servlet {
 
 
 		try {
-			//sys_idがあれば詳細ページに遷移
-			if(request.getParameter("sys_id") != null) {
+			//detailがあれば詳細ページに遷移
+			String detail = request.getParameter("detail");
+			if(detail != null && detail.equals("true")) {
 				goDetailPageBySysId(request, response, session, request.getParameter("sys_id"));
 			}
-			
-			//sys_idがなければ検索結果を表示
-			if (null == session.getAttribute(searchText + page)) {
+			//detailがなければ検索結果を表示
+			else if (null == session.getAttribute(searchText + page)) {
 				handleNewSearch(request, response, session, RESULT_NUM, searchText, page);
 			} else {
 				handleExistingSearch(request, response, session, RESULT_NUM, searchText, page);
@@ -84,7 +84,7 @@ public class SearchServlet extends HttpServlet implements Servlet {
             session.setAttribute(searchText + "TotalPages", totalPages);
             setRequestAttributes(request, RESULT_NUM, searchText, page, rsBean);
             request.getRequestDispatcher("/result.jsp").forward(request, response);
-        }//エラー処理
+        }//TODO エラー処理
         if (rsBean.getResultsCd().equals("1")) {
             request.setAttribute("errItem", rsBean.getErrList().getErrItem());
             request.getRequestDispatcher("/index.jsp").forward(request, response);
