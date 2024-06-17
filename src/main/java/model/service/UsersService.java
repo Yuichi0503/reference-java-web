@@ -1,6 +1,8 @@
 
 package model.service;
 
+import java.util.UUID;
+
 import model.entity.UsersEntity;
 
 public class UsersService {
@@ -16,8 +18,8 @@ public class UsersService {
 		var hsMap = HashService.hashWithSalt(password);
 		//受け取った値を元にUserEntityを作成
 		UsersEntity user = new UsersEntity();
-		//user_idはemailのハッシュ値
-		user.setUser_id(HashService.hash(email));
+		// user_idは36文字のUUID
+        user.setUser_id(UUID.randomUUID().toString());
 		user.setUser_name(username);
 		user.setEmail(email);
 		user.setSalt(hsMap.get("salt"));
