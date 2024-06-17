@@ -48,6 +48,7 @@ public class UsersDao {
 	            entity.setReg_date(rs.getDate("reg_date").toLocalDate());
 	            entity.setToken(rs.getString("token"));
 	            entity.setVerified(rs.getBoolean("is_verified"));
+	            //TODO
 	            return entity;
 	        }
 		} catch (Exception e) {
@@ -65,7 +66,7 @@ public class UsersDao {
 		String sql =  "INSERT INTO users (user_id, user_name, email, hashed_password, salt, token, is_verified)\n"
                     + "VALUES (?, ?, ?, ?, ?, ?, ? )\n";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -81,6 +82,7 @@ public class UsersDao {
 			pstmt.setString(5, entity.getSalt());
 			pstmt.setString(6, entity.getToken());
 			pstmt.setBoolean(7, entity.isVerified());
+			//TODO
 			int result = pstmt.executeUpdate();
 			if (result == 1) {
 				return true;
@@ -102,7 +104,7 @@ public class UsersDao {
                     + "FROM users\n"
                     + "WHERE token = ?\n";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -131,7 +133,7 @@ public class UsersDao {
 	public static boolean updateUserName(String userId, String newUserName) {
 		String sql = "UPDATE users SET user_name = ? WHERE user_id = ?";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -158,7 +160,7 @@ public class UsersDao {
 	public static boolean updatePasswordAndSalt(String userId, String newHashedPassword, String newSalt) {
 		String sql = "UPDATE users SET hashed_password = ?, salt = ? WHERE user_id = ?";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -185,7 +187,7 @@ public class UsersDao {
 	public static boolean updateIsVerified(String userId, boolean isVerified) {
 		String sql = "UPDATE users SET is_verified = ? WHERE user_id = ?";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
