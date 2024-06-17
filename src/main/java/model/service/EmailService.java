@@ -22,17 +22,21 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.model.Message;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.ServletContext;
+import model.entity.User_requestsEntity;
+import model.entity.UsersEntity;
 
 
 public class EmailService {
 	private static final ResourceBundle bundle = ResourceBundle.getBundle("appConfig");
 	private static final String credentialsFolderPath = bundle.getString("credentialsFolderPath");
+	private static final String website = bundle.getString("website");
     
     /**
 	 * GmailのAPIクライアントを取得します。
@@ -109,6 +113,38 @@ public class EmailService {
         
         return message;
     }
+    
+    
+	public static Message sendVerificationEmail(UsersEntity user, ServletContext servletContext)
+			throws Exception {
+		String verificationUrl = website + "/verify?token=" + user.getToken();
+		String message = "以下のアドレスにアクセスして認証を完了してください\n" + verificationUrl;
+
+		Gmail gmail = EmailService.getGmail(servletContext);
+		Gmail.Users gmailUsers = gmail.users();
+		Gmail.Users.Messages gmailMessages = gmailUsers.messages();
+
+		var mimeM = EmailService.createMimeMessage(user.getEmail(), "認証メール", message);
+		var content = EmailService.createMessage(mimeM);
+		var send = gmailMessages.send("me", content);
+		var mRes = send.execute();
+		return mRes;
+	}
+	public static Message sendVerificationEmail(User_requestsEntity user, ServletContext servletContext)
+			throws Exception {
+		String verificationUrl = website + "/verify?token=" + user.getToken();
+		String message = "以下のアドレスにアクセスして認証を完了してください\n" + verificationUrl;
+		
+		Gmail gmail = EmailService.getGmail(servletContext);
+		Gmail.Users gmailUsers = gmail.users();
+		Gmail.Users.Messages gmailMessages = gmailUsers.messages();
+		
+		var mimeM = EmailService.createMimeMessage(user.getEmail(), "認証メール", message);
+		var content = EmailService.createMessage(mimeM);
+		var send = gmailMessages.send("me", content);
+		var mRes = send.execute();
+		return mRes;
+	}
 
 
 
