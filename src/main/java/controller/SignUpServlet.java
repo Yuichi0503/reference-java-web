@@ -1,19 +1,14 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.model.Message;
-
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.dao.User_requestsDao;
 import model.dao.UsersDao;
-import model.entity.UsersEntity;
 import model.service.EmailService;
 import model.service.UsersService;
 
@@ -22,8 +17,6 @@ import model.service.UsersService;
  */
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
-	private static final ResourceBundle bundle = ResourceBundle.getBundle("appConfig");
-	private static final String website = bundle.getString("website");
 	
 	private static final long serialVersionUID = 1L;
        
@@ -51,21 +44,21 @@ public class SignUpServlet extends HttpServlet {
 	        handleError(request, response, "パスワードが一致しません");
 	        return;
 	    }
-	    if (UsersDao.getEntity(email) != null) {
-	        handleError(request, response, "このメールアドレスは既に登録されています");
+	    if (UsersDao.getEntity(email) != null || User_requestsDao.getEntity(email) != null) {
+	        handleError(request, response, "このメールアドレスは既に登録、<br>もしくは仮登録されています");
 	        return;
 	    }
 		
 		//ユーザーを作成
 		var user = UsersService.createUser(user_name, password, email);
-		//DBに保存
-		if (UsersDao.addEntity(user) == false) {
+		//user_requestsに保存
+		if (User_requestsDao.addEntity(user) == false) {
 		    handleError(request, response, "登録に失敗しました");
 		    return;
 		}
 		// エラーがなければ、認証メールを送信
 		try {
-		    sendVerificationEmail(user, this.getServletContext());
+		    EmailService.sendVerificationEmail(user, this.getServletContext());
 		    // フォワード
 		    request.setAttribute("msg", "認証メールを送信しました");
 		    request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -85,19 +78,5 @@ public class SignUpServlet extends HttpServlet {
 	    request.getRequestDispatcher("/signup.jsp").forward(request, response);
 	}
 	
-	private Message sendVerificationEmail(UsersEntity user, ServletContext servletContext) throws Exception {
-	    String verificationUrl = website + "/verify?token=" + user.getToken();
-	    String message = "以下のアドレスにアクセスして認証を完了してください\n" + verificationUrl;
-
-	    Gmail gmail = EmailService.getGmail(servletContext);
-	    Gmail.Users gmailUsers = gmail.users();
-	    Gmail.Users.Messages gmailMessages = gmailUsers.messages();
-
-	    var mimeM = EmailService.createMimeMessage(user.getEmail(), "認証メール", message);
-	    var content = EmailService.createMessage(mimeM);
-	    var send = gmailMessages.send("me", content);
-	    var mRes = send.execute();
-	    return mRes;
-	}
 
 }
