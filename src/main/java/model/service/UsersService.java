@@ -25,7 +25,7 @@ public class UsersService {
 		user.setSalt(hsMap.get("salt"));
 		user.setHashed_password(hsMap.get("hash"));
 		//Tokenを生成
-		user.setToken(TokenGenerator.generateToken());
+		user.setToken(UUID.randomUUID().toString());
 		//認証を無効
 		user.setVerified(false);
 
