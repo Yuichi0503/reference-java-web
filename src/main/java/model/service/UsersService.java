@@ -14,6 +14,8 @@ public class UsersService {
 	 * @param email
 	 * @return User_requestsEntity
 	 */
+	
+	//3600000ミリ秒 = 1時間
     private static final int EXPIRY_DURATION_IN_MILLISECONDS = 3600000;
 
 	public static User_requestsEntity createUser(String username, String password, String email) {
@@ -35,7 +37,8 @@ public class UsersService {
 		user.setSalt(hsMap.get("salt"));
 		
 		//有効期限はEXPIRY_DURATION_IN_MILLISECONDS以内
-		user.setExpiry(new java.sql.Timestamp(System.currentTimeMillis() + EXPIRY_DURATION_IN_MILLISECONDS));
+		user.setExpiry(new java.sql.Timestamp(
+				System.currentTimeMillis() + EXPIRY_DURATION_IN_MILLISECONDS) );
 		
 		return user;
 	}
