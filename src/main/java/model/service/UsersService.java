@@ -7,7 +7,8 @@ import model.entity.User_requestsEntity;
 
 public class UsersService {
 	/**
-	 * Entityを作成
+	 * 三つのパラメーターを受け取り
+	 * User_requestsEntityを作成
 	 * @param username
 	 * @param password
 	 * @param email
