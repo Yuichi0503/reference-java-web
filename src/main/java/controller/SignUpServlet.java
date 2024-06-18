@@ -44,7 +44,7 @@ public class SignUpServlet extends HttpServlet {
 	        handleError(request, response, "パスワードが一致しません");
 	        return;
 	    }
-	    if (UsersDao.getEntity(email) != null || User_requestsDao.getEntity(email) != null) {
+	    if (UsersDao.getEntityByEmail(email) != null || User_requestsDao.getEntityByEmail(email) != null) {
 	        handleError(request, response, "このメールアドレスは既に登録、<br>もしくは仮登録されています");
 	        return;
 	    }
