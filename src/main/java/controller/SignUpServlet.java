@@ -58,7 +58,7 @@ public class SignUpServlet extends HttpServlet {
 		}
 		// エラーがなければ、認証メールを送信
 		try {
-		    EmailService.sendVerificationEmail(user, this.getServletContext());
+		    EmailService.sendVerificationEmail(email, user.getToken(), this.getServletContext());
 		    // フォワード
 		    request.setAttribute("msg", "認証メールを送信しました");
 		    request.getRequestDispatcher("/login.jsp").forward(request, response);
