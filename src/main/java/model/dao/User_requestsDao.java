@@ -19,7 +19,7 @@ public class User_requestsDao {
 	/**
 	 * entityをDBに追加
 	 * @param entity
-	 * @return 成功したか
+	 * @return true or false
 	 */
 	public static boolean addEntity(User_requestsEntity entity) {
 		String sql =  "INSERT INTO user_requests (user_id, user_name, email"
@@ -60,11 +60,55 @@ public class User_requestsDao {
 	}
 	
 	/**
+	 * tokenをキーにentityを返す
+	 * @param token
+	 * @return entity or null
+	 */
+	public static User_requestsEntity getEntityByToken(String token) {
+		User_requestsEntity entity = new User_requestsEntity();
+		String sql =  "SELECT *\n"
+					+ "FROM user_requests\n"
+					+ "WHERE token = ?\n";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);
+		) {
+			pstmt.setString(1, token);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+			    entity.setUser_id(rs.getString("user_id"));
+			    entity.setUser_name(rs.getString("user_name"));
+			    entity.setEmail(rs.getString("email"));
+			    entity.setHashed_password(rs.getString("hashed_password"));
+			    entity.setSalt(rs.getString("salt"));
+			    entity.setReg_date(rs.getDate("reg_date"));
+			    entity.setToken(rs.getString("token"));
+			    entity.setOperation_type(rs.getString("operation_type"));
+			    entity.setNew_email(rs.getString("new_email"));
+			    entity.setNew_hashed_password(rs.getString("new_hashed_password"));
+			    entity.setNew_salt(rs.getString("new_salt"));
+			    entity.setExpiry(rs.getTimestamp("expiry"));
+			    entity.setToken(token);
+			    return entity;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * emailをキーにentityを返す
 	 * @param email
 	 * @return entity or null
 	 */
-	public static User_requestsEntity getEntity(String email) {
+	public static User_requestsEntity getEntityByEmail(String email) {
 		User_requestsEntity entity = new User_requestsEntity();
 		String sql =  "SELECT *\n"
 					+ "FROM user_requests\n"
@@ -101,5 +145,114 @@ public class User_requestsDao {
 		}
 		return null;
 	}
+	
+	/**
+	 * user_requestsテーブルから
+	 * tokenをキーにuser_idを返す
+	 * @param token
+	 * @return String user_id or null
+	 */
+	public static String getUserIdByToken(String token) {
+		String sql = "SELECT user_id\n"
+				+ "FROM user_requests\n"
+				+ "WHERE token = ?\n";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, token);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("user_id");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * トークンをキーにoperation_typeを返す
+	 * @param token
+	 * @return String operation_type or null
+	 */
+	public static String getOperationTypeByToken(String token) {
+		String sql = "SELECT operation_type\n"
+				+ "FROM user_requests\n"
+				+ "WHERE token = ?\n";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, token);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("operation_type");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
+	/**
+	 * トークンが有効期限内であればtrueを返す
+	 * トークンが存在しない、もしくは有効期限切れであればfalseを返す
+	 * @param token
+	 * @return true or false
+	 */
+	public static boolean isValidToken(String token) {
+		String sql = "SELECT expiry\n"
+				+ "FROM user_requests\n"
+				+ "WHERE token = ?\n";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, token);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getTimestamp("expiry").getTime() > System.currentTimeMillis();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * トークンをキーに対象レコードを削除
+	 * @param token
+	 */
+	public static void deleteByToken(String token) {
+		String sql = "DELETE FROM user_requests WHERE token = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, token);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
