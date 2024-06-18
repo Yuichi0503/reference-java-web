@@ -50,6 +50,7 @@ public class VerificationServlet extends HttpServlet {
 			request.setAttribute("msg", "認証に成功しました。<br>ログインしてください。");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
+		//TODO change_email
 	}
 
 	/**
