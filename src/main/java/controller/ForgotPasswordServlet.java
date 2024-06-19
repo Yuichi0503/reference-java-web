@@ -75,7 +75,7 @@ public class ForgotPasswordServlet extends HttpServlet {
 	}
 	
 	//emailを引数にuser_requestsEntityを生成
-	//token,operation_type,expiry,user_idを設定
+	//token,operation_type,expiry,user_id,emailを設定
 	private User_requestsEntity createPassResetEntity(String email) {
 		//user_idを取得
 		var entity = UsersDao.getEntityByEmail(email);
@@ -88,6 +88,7 @@ public class ForgotPasswordServlet extends HttpServlet {
 		user_requestsEntity.setExpiry(new java.sql.Timestamp(
 				System.currentTimeMillis() + EXPIRY_DURATION_IN_MILLISECONDS));
 		user_requestsEntity.setUser_id(user_id);
+		user_requestsEntity.setEmail(email);
 		return user_requestsEntity;
 	}
 
