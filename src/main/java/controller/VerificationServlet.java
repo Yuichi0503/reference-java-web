@@ -38,7 +38,8 @@ public class VerificationServlet extends HttpServlet {
 					+ "<br>再度登録してください。");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 
-		} else if (operation_type.equals("signup")) {
+		} 
+		else if (operation_type.equals("signup")) {
 			//signup処理
 			if (signUp(token) == false) {
 				User_requestsDao.deleteByToken(token);
@@ -46,11 +47,26 @@ public class VerificationServlet extends HttpServlet {
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 				return;
 			}
-			User_requestsDao.deleteByToken(token);
-			request.setAttribute("msg", "認証に成功しました。<br>ログインしてください。");
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			else {
+				User_requestsDao.deleteByToken(token);
+				request.setAttribute("msg", "認証に成功しました。<br>ログインしてください。");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
 		}
-		//TODO change_email
+		else if (operation_type.equals("email_change")) {
+			//change_email処理
+			if (changeEmail(token) == false) {
+				User_requestsDao.deleteByToken(token);
+				request.setAttribute("msg", "メールアドレスの変更に失敗しました。");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+				return;
+			}
+			else {
+				User_requestsDao.deleteByToken(token);
+				request.setAttribute("msg", "メールアドレスの変更に成功しました。");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
+		}
 	}
 
 	/**
@@ -60,12 +76,31 @@ public class VerificationServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	/**
+	 * usersDBに本登録
+	 * @param token
+	 * @return true or false
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	protected boolean signUp(String token) throws ServletException, IOException {
 		// entityを取得
 		var entity = User_requestsDao.getEntityByToken(token);
 		//UsersDaoでusersに追加
 		return UsersDao.addEntity(entity);
 
+	}
+	
+	/**
+	 * usersDBのemailを変更
+	 * @param token
+	 * @return true or false
+	 */
+	protected boolean changeEmail(String token) {
+		// entityを取得
+		var entity = User_requestsDao.getEntityByToken(token);
+		//UsersDaoでemailを変更
+		return UsersDao.updateEmail(entity.getUser_id(), entity.getNew_email());
 	}
 
 }

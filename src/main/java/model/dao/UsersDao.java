@@ -89,8 +89,6 @@ public class UsersDao {
 		return false;
 	}
 	
-	
-	
 	/**
 	 * user_id該当レコードのuser_nameを変更
 	 * @param userId
@@ -145,5 +143,30 @@ public class UsersDao {
 		return false;
 	}
 
+	/**
+	 * user_id該当レコードのemailを変更
+	 * @param userId
+	 * @param newEmail
+	 * @return true or false
+	 */
+	public static boolean updateEmail(String userId, String newEmail) {
+		String sql = "UPDATE users SET email = ? WHERE user_id = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, newEmail);
+			pstmt.setString(2, userId);
+			int result = pstmt.executeUpdate();
+			return result == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 }
