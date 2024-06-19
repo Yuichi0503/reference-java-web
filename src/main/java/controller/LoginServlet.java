@@ -30,9 +30,13 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//オブジェクト生成
-		
-		HttpSession session = request.getSession();
+		//既存のセッションがある場合無効にしてから、
+		//新しいセッションを作成
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
+		session = request.getSession();
 		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
