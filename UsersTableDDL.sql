@@ -1,5 +1,5 @@
 -- Project Name : noname
--- Date/Time    : 2024/06/07 16:01:51
+-- Date/Time    : 2024/06/17 11:03:26
 -- Author       : kunre
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -15,14 +15,15 @@
 -- users
 -- * RestoreFromTempTable
 create table users (
-  user_id character varying(64) not null
+  user_id character(36) not null
   , user_name character varying(64) not null
   , email character varying(40) not null
-  , hashed_password character varying(64) not null
-  , salt character varying(32) not null
+  , hashed_password character(64) not null
+  , salt character(32) not null
   , reg_date date default now() not null
   , token character varying(255)
-  , is_verified boolean default false
+  , is_verified boolean default false not null
+  , constraint users_PKC primary key (user_id)
 ) ;
 
 create unique index email_unique

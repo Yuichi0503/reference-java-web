@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
+import model.entity.User_requestsEntity;
 import model.entity.UsersEntity;
 
 public class UsersDao {
@@ -22,7 +23,7 @@ public class UsersDao {
 	 * @param email
 	 * @return entity or null
 	 */
-	public static UsersEntity getEntity(String email) {
+	public static UsersEntity getEntityByEmail(String email) {
 		var entity = new UsersEntity();
 		String sql =  "SELECT *\n"
 					+ "FROM users\n"
@@ -47,7 +48,6 @@ public class UsersDao {
 	            entity.setSalt(rs.getString("salt"));
 	            entity.setReg_date(rs.getDate("reg_date").toLocalDate());
 	            entity.setToken(rs.getString("token"));
-	            entity.setVerified(rs.getBoolean("is_verified"));
 	            return entity;
 	        }
 		} catch (Exception e) {
@@ -57,15 +57,15 @@ public class UsersDao {
 	}
 	
 	/**
-	 * entityをDBに追加
-	 * @param entity
-	 * @return 成功したか
+	 * User_requestsEntityをusersDBに追加
+	 * @param User_requestsEntity
+	 * @return true or false
 	 */
-	public static boolean addEntity(UsersEntity entity) {
-		String sql =  "INSERT INTO users (user_id, user_name, email, hashed_password, salt, token, is_verified)\n"
-                    + "VALUES (?, ?, ?, ?, ?, ?, ? )\n";
+	public static boolean addEntity(User_requestsEntity entity) {
+		String sql =  "INSERT INTO users (user_id, user_name, email, hashed_password, salt)\n"
+                    + "VALUES (?, ?, ?, ?, ?)\n";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -79,8 +79,6 @@ public class UsersDao {
 			pstmt.setString(3, entity.getEmail());
 			pstmt.setString(4, entity.getHashed_password());
 			pstmt.setString(5, entity.getSalt());
-			pstmt.setString(6, entity.getToken());
-			pstmt.setBoolean(7, entity.isVerified());
 			int result = pstmt.executeUpdate();
 			if (result == 1) {
 				return true;
@@ -89,37 +87,6 @@ public class UsersDao {
 			e.printStackTrace();
 		}
 		return false;
-	}
-	
-	//usersテーブルからtokenをkeyにentityを返す
-	/**
-	 * tokenをキーにuser_idを返す
-	 * @param token
-	 * @return String user_id or null
-	 */
-	public static String getUserIdByToken(String token) {
-		String sql =  "SELECT user_id\n"
-                    + "FROM users\n"
-                    + "WHERE token = ?\n";
-		try {
-			Class.forName("org.postgresql.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try (
-				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
-				Connection con = DriverManager.getConnection(URL, USER, PASS);
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				) {
-			pstmt.setString(1, token);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				return rs.getString("user_id");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	/**
@@ -131,7 +98,7 @@ public class UsersDao {
 	public static boolean updateUserName(String userId, String newUserName) {
 		String sql = "UPDATE users SET user_name = ? WHERE user_id = ?";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -158,7 +125,7 @@ public class UsersDao {
 	public static boolean updatePasswordAndSalt(String userId, String newHashedPassword, String newSalt) {
 		String sql = "UPDATE users SET hashed_password = ?, salt = ? WHERE user_id = ?";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -177,22 +144,22 @@ public class UsersDao {
 	}
 
 	/**
-	 * user_id該当レコードのis_verifiedを変更
+	 * user_id該当レコードのemailを変更
 	 * @param userId
-	 * @param isVerified
+	 * @param newEmail
 	 * @return true or false
 	 */
-	public static boolean updateIsVerified(String userId, boolean isVerified) {
-		String sql = "UPDATE users SET is_verified = ? WHERE user_id = ?";
+	public static boolean updateEmail(String userId, String newEmail) {
+		String sql = "UPDATE users SET email = ? WHERE user_id = ?";
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName(FOR_NAME);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
-			pstmt.setBoolean(1, isVerified);
+			pstmt.setString(1, newEmail);
 			pstmt.setString(2, userId);
 			int result = pstmt.executeUpdate();
 			return result == 1;

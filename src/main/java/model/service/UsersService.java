@@ -1,32 +1,45 @@
 
 package model.service;
 
-import model.entity.UsersEntity;
+import java.util.UUID;
+
+import model.entity.User_requestsEntity;
 
 public class UsersService {
 	/**
-	 * ユーザーを作成
+	 * 三つのパラメーターを受け取り
+	 * User_requestsEntityを作成
 	 * @param username
 	 * @param password
 	 * @param email
-	 * @return 作成したユーザー
+	 * @return User_requestsEntity
 	 */
-	public static UsersEntity createUser(String username, String password, String email) {
+	
+	//3600000ミリ秒 = 1時間
+    private static final int EXPIRY_DURATION_IN_MILLISECONDS = 3600000;
+
+	public static User_requestsEntity createUser(String username, String password, String email) {
 		//hashWithSaltでソルトとハッシュのmapを取得
 		var hsMap = HashService.hashWithSalt(password);
-		//受け取った値を元にUserEntityを作成
-		UsersEntity user = new UsersEntity();
-		//user_idはemailのハッシュ値
-		user.setUser_id(HashService.hash(email));
+		//受け取った値を元にUser_requestsEntityを作成
+		User_requestsEntity user = new User_requestsEntity();
+		//Tokenを生成
+		user.setToken(UUID.randomUUID().toString());
+		
+		//operation_typeは"signup"
+		user.setOperation_type("signup");
+		
+		// user_idは36文字のUUID
+        user.setUser_id(UUID.randomUUID().toString());
 		user.setUser_name(username);
 		user.setEmail(email);
-		user.setSalt(hsMap.get("salt"));
 		user.setHashed_password(hsMap.get("hash"));
-		//Tokenを生成
-		user.setToken(TokenGenerator.generateToken());
-		//認証を無効
-		user.setVerified(false);
-
+		user.setSalt(hsMap.get("salt"));
+		
+		//有効期限はEXPIRY_DURATION_IN_MILLISECONDS以内
+		user.setExpiry(new java.sql.Timestamp(
+				System.currentTimeMillis() + EXPIRY_DURATION_IN_MILLISECONDS) );
+		
 		return user;
 	}
 }

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Login;
+import model.dao.User_requestsDao;
 import model.dao.UsersDao;
 
 /**
@@ -37,23 +38,22 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		//ログインチェック
 		if (Login.loginCheck(email, password)) {
-			var entity = UsersDao.getEntity(email);
-			if (entity.isVerified() == true) {
-				//ユーザ情報をセッションに保存
-				session.setAttribute("user_id", entity.getUser_id());
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
-			}else {
-				//認証が完了していない場合、認証を促す
-				request.setAttribute("msg", "認証が完了していません。メールを確認してください。");
-				request.setAttribute("email", email);
-				request.setAttribute("password", password);
-				request.getRequestDispatcher("/login.jsp").forward(request, response);
-			}
-		} else {
+			var entity = UsersDao.getEntityByEmail(email);
+			//ユーザ情報をセッションに保存
+			session.setAttribute("user_id", entity.getUser_id());
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+		} 
+		
+		else if(User_requestsDao.getEntityByEmail(email) != null) {
+			//仮登録の場合
+			request.setAttribute("msg", "メール認証が完了していません。");
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+		
+		else {
 			//失敗時、再入力を促す
 			request.setAttribute("msg", "ログインに失敗しました。");
 			request.setAttribute("email", email);
-			request.setAttribute("password", password);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		} 
 		
