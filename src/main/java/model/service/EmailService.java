@@ -29,7 +29,6 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.ServletContext;
-import model.entity.UsersEntity;
 
 
 public class EmailService {
@@ -113,22 +112,6 @@ public class EmailService {
         return message;
     }
     
-    
-	public static Message sendVerificationEmail(UsersEntity user, ServletContext servletContext)
-			throws Exception {
-		String verificationUrl = website + "/verify?token=" + user.getToken();
-		String message = "以下のアドレスにアクセスして認証を完了してください\n" + verificationUrl;
-
-		Gmail gmail = EmailService.getGmail(servletContext);
-		Gmail.Users gmailUsers = gmail.users();
-		Gmail.Users.Messages gmailMessages = gmailUsers.messages();
-
-		var mimeM = EmailService.createMimeMessage(user.getEmail(), "認証メール", message);
-		var content = EmailService.createMessage(mimeM);
-		var send = gmailMessages.send("me", content);
-		var mRes = send.execute();
-		return mRes;
-	}
 	/**
 	 * 認証メールを送信します。
 	 * @param 宛先のメールアドレス
