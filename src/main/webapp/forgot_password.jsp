@@ -4,7 +4,7 @@
 <!doctype html>
 <html lang="ja">
 <head>
-	<title>Email変更</title>
+	<title>パスワードリセット要求画面</title>
 	<jsp:include page="head.jsp" />
 </head>
 <body>
