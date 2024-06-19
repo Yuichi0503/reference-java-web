@@ -51,6 +51,7 @@ public class VerificationServlet extends HttpServlet {
 				User_requestsDao.deleteByToken(token);
 				request.setAttribute("msg", "認証に成功しました。<br>ログインしてください。");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
+				return;
 			}
 		}
 		else if (operation_type.equals("email_change")) {
@@ -65,7 +66,21 @@ public class VerificationServlet extends HttpServlet {
 				User_requestsDao.deleteByToken(token);
 				request.setAttribute("msg", "メールアドレスの変更に成功しました。");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
+				return;
 			}
+		}
+		else if (operation_type.equals("password_reset") ) {
+			//password_reset処理
+			var entity = User_requestsDao.getEntityByToken(token);
+			UsersDao.updatePasswordAndSalt(entity.getUser_id(), entity.getNew_hashed_password(), entity.getNew_salt());
+			
+			//同じuser_idのoperatin_typeが"password_reset"のレコードを削除
+			deletePasswordResetToken(token);
+			
+			//ログイン画面に遷移
+			request.setAttribute("msg", "パスワードの変更に成功しました。");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
 		}
 	}
 
@@ -101,6 +116,12 @@ public class VerificationServlet extends HttpServlet {
 		var entity = User_requestsDao.getEntityByToken(token);
 		//UsersDaoでemailを変更
 		return UsersDao.updateEmail(entity.getUser_id(), entity.getNew_email());
+	}
+	
+	//tokenを元に,同じuser_idのoperatin_typeが"password_reset"のレコードを削除
+	protected void deletePasswordResetToken(String token) {
+		var entity = User_requestsDao.getEntityByToken(token);
+		User_requestsDao.deleteByUserIdAndOperationType(entity.getUser_id(), "password_reset");
 	}
 
 }
