@@ -60,7 +60,8 @@ public class ForgotPasswordServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			request.setAttribute("msg", "パスワード再設定のためのリンクを送信しました");
+			request.setAttribute("msg", "登録されたメールアドレス宛に<br>"
+					+ "パスワード再設定のためのリンクを送信しました");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 			return;
 		}
