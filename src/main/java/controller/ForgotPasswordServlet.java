@@ -12,6 +12,7 @@ import model.dao.User_requestsDao;
 import model.dao.UsersDao;
 import model.entity.User_requestsEntity;
 import model.service.EmailService;
+import model.service.HashService;
 
 /**
  * Servlet implementation class ForgotPasswordServlet
@@ -34,8 +35,10 @@ public class ForgotPasswordServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//forgot_password.jspからメールアドレスを受け取り認証メールを送信
+		//forgot_password.jspからパラメーターを取得
 		String email = request.getParameter("email");
+		String  password = request.getParameter("password");
+		String  confirm_password = request.getParameter("confirm_password");
 		
 		var entity = UsersDao.getEntityByEmail(email);
 		
@@ -46,10 +49,18 @@ public class ForgotPasswordServlet extends HttpServlet {
 			request.getRequestDispatcher("/forgot_password.jsp").forward(request, response);
 			return;
 		}
+		//パスワードの確認
+		else if(password == null || !password.equals(confirm_password)) {
+			request.setAttribute("msg", "パスワードが一致しません");
+			request.getRequestDispatcher("/forgot_password.jsp").forward(request, response);
+			return;
+			
+		}
+		
 		//登録されている場合、user_requestsに登録後、認証メールを送信
 		else {
 			
-			var requestsEntity = createPassResetEntity(email);
+			var requestsEntity = createPassResetEntity(email, password);
 			//user_requestsに保存
 			User_requestsDao.addEntity(requestsEntity);
 			
@@ -74,12 +85,14 @@ public class ForgotPasswordServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	//emailを引数にuser_requestsEntityを生成
-	//token,operation_type,expiry,user_id,emailを設定
-	private User_requestsEntity createPassResetEntity(String email) {
+	//emailとpasswordを引数にuser_requestsEntityを生成
+	//token,operation_type,expiry,user_id,email,new_hashed_password,new_saltを設定
+	private User_requestsEntity createPassResetEntity(String email, String password) {
 		//user_idを取得
 		var entity = UsersDao.getEntityByEmail(email);
 		String user_id = entity.getUser_id();
+		//hash化
+		var hashSaltMap = HashService.hashWithSalt(password);
 
 		//entityに設定
 		var user_requestsEntity = new User_requestsEntity();
@@ -89,6 +102,8 @@ public class ForgotPasswordServlet extends HttpServlet {
 				System.currentTimeMillis() + EXPIRY_DURATION_IN_MILLISECONDS));
 		user_requestsEntity.setUser_id(user_id);
 		user_requestsEntity.setEmail(email);
+		user_requestsEntity.setNew_hashed_password(hashSaltMap.get("hash"));
+		user_requestsEntity.setNew_salt(hashSaltMap.get("salt"));
 		return user_requestsEntity;
 	}
 
