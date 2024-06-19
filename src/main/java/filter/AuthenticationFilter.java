@@ -39,8 +39,7 @@ public class AuthenticationFilter implements Filter {
 		return requestURI.equals("/login") || requestURI.equals("/signup") || requestURI.endsWith(".css")
 				|| requestURI.endsWith(".js") || requestURI.equals("/login.jsp") || requestURI.equals("/signup.jsp")
 				|| requestURI.equals("/verify") || requestURI.equals("/forgot_password")
-				|| requestURI.equals("/forgot_password.jsp") || requestURI.equals("/password_reset.jsp")
-				|| requestURI.equals("/change_password");
+				|| requestURI.equals("/forgot_password.jsp");
 	}
 
 	// Add init and destroy methods if needed
