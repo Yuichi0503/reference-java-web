@@ -38,7 +38,8 @@ public class AuthenticationFilter implements Filter {
 	private boolean isAllowedRequest(String requestURI) {
 		return requestURI.equals("/login") || requestURI.equals("/signup") || requestURI.endsWith(".css")
 				|| requestURI.endsWith(".js") || requestURI.equals("/login.jsp") || requestURI.equals("/signup.jsp")
-				|| requestURI.equals("/verify");
+				|| requestURI.equals("/verify") || requestURI.equals("/forgot_password")
+				|| requestURI.equals("/forgot_password.jsp");
 	}
 
 	// Add init and destroy methods if needed
