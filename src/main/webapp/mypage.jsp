@@ -14,7 +14,7 @@
 			<div class="alert alert-info mt-2 text-center w-75 mx-auto">${msg}</div>
 		</c:if>
 		<div>
-			<ul class="list-group mt-4">
+			<ul class="list-group mt-4 w-75 mx-auto">
 				<li class="list-group-item d-flex justify-content-center">
 				<a class="btn btn-primary" href="email_change.jsp" role="button">Email変更</a></li>
 
