@@ -255,4 +255,23 @@ public class User_requestsDao {
 			e.printStackTrace();
 		}
 	}
+
+	public static void deleteByUserIdAndOperationType(String user_id, String operation_type) {
+		String sql = "DELETE FROM user_requests WHERE user_id = ? AND operation_type = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, user_id);
+			pstmt.setString(2, operation_type);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
