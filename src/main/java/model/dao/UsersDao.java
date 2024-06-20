@@ -57,6 +57,43 @@ public class UsersDao {
 	}
 	
 	/**
+	 * user_idをキーにentityを返す
+	 * @param user_id
+	 * @return entity or null
+	 */
+	public static UsersEntity getEntityByUserId(String user_id) {
+		var entity = new UsersEntity();
+		String sql = "SELECT *\n"
+				+ "FROM users\n"
+				+ "WHERE user_id = ?\n";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, user_id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				entity.setUser_id(rs.getString("user_id"));
+				entity.setUser_name(rs.getString("user_name"));
+				entity.setEmail(rs.getString("email"));
+				entity.setHashed_password(rs.getString("hashed_password"));
+				entity.setSalt(rs.getString("salt"));
+				entity.setReg_date(rs.getDate("reg_date").toLocalDate());
+				entity.setToken(rs.getString("token"));
+				return entity;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * User_requestsEntityをusersDBに追加
 	 * @param User_requestsEntity
 	 * @return true or false
@@ -167,6 +204,31 @@ public class UsersDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	/**
+	 * user_id該当レコードを削除
+	 * @param user_id
+	 * @return　 true or false
+	 */
+	public static boolean deleteUser(String user_id) {
+		String sql = "DELETE FROM users WHERE user_id = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, user_id);
+			return pstmt.executeUpdate() == 1;
+		} catch (Exception e) {
+		    System.err.println("Error occurred while deleting user: " + e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 
 }
