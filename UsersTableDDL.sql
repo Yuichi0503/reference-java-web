@@ -1,5 +1,5 @@
 -- Project Name : noname
--- Date/Time    : 2024/06/17 11:03:26
+-- Date/Time    : 2024/06/20 14:58:53
 -- Author       : kunre
 -- RDBMS Type   : PostgreSQL
 -- Application  : A5:SQL Mk-2
@@ -21,8 +21,6 @@ create table users (
   , hashed_password character(64) not null
   , salt character(32) not null
   , reg_date date default now() not null
-  , token character varying(255)
-  , is_verified boolean default false not null
   , constraint users_PKC primary key (user_id)
 ) ;
 
@@ -36,6 +34,4 @@ comment on column users.email is 'email';
 comment on column users.hashed_password is 'hashed_password';
 comment on column users.salt is 'salt';
 comment on column users.reg_date is 'reg_date';
-comment on column users.token is 'token';
-comment on column users.is_verified is 'is_verified';
 
