@@ -31,7 +31,7 @@
 			</div>
 		</div>
 
-		<form action="/reference-java-web/search">
+		<form action="${pageContext.request.contextPath}/search">
 			<nav aria-label="Page navigation" class="mt-4">
 				<ul class="pagination justify-content-center">
 					<c:if test="${page > 1}">
@@ -106,13 +106,13 @@
 								</c:choose>
 							</p>
 							<div class="button_group d-flex justify-content-center gap-3">
-								<form action="/reference-java-web/detail">
+								<form action="${pageContext.request.contextPath}/detail">
 									<button class="btn btn-primary" type="submit" name="index"
 										value="${status.index}" class="btn">詳細ページ</button>
 									<input type="hidden" name="searchText" value="${searchText}">
 									<input type="hidden" name="page" value="${page}">
 								</form>
-								<form action="/reference-java-web/fav">
+								<form action="${pageContext.request.contextPath}/fav">
 									<c:choose>
 										<c:when
 											test="${favoriteSysIds.contains(rec.reference.refTypeObject('system').sysId)}">
@@ -165,7 +165,7 @@
 			</div>
 		</c:forEach>
 	
-	<div class="result_num_box d-flex justify-content-center">
+		<div class="result_num_box d-flex justify-content-center">
 			<div>検索結果</div>
 			<div>${rsBean.hitNum}件中</div>
 
@@ -175,7 +175,7 @@
 			</div>
 		</div>
 
-		<form action="/reference-java-web/search">
+		<form action="${pageContext.request.contextPath}/search">
 			<nav aria-label="Page navigation" class="mt-4">
 				<ul class="pagination justify-content-center">
 					<c:if test="${page > 1}">

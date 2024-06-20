@@ -11,7 +11,7 @@
 <jsp:include page="header.jsp" />
 	<div class="container-md py-4">
 	
-	<form action="/reference-java-web/search" class="mt-5">
+	<form action="${pageContext.request.contextPath}/search" class="mt-5">
 		<div class="d-flex justify-content-center flex-wrap gap-3">
 			<input type="search" class="w-50 form-control" name="searchText" placeholder="キーワード検索" required="required"/>
 			<button type="submit" class="btn btn-secondary">検索</button>

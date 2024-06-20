@@ -19,7 +19,7 @@
 			<c:if test="${msg != null}">
 				<div class="alert alert-info mt-2 text-center">${msg}</div>
 			</c:if>
-			<form action="/reference-java-web/login" method="post">
+			<form action="${pageContext.request.contextPath}/login" method="post">
 				<div class="form-item">
 					<label for="email"></label> <input type="email" name="email"
 						required="required" placeholder="email" value="${email}"></input>

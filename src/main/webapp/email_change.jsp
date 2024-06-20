@@ -11,7 +11,7 @@
 <jsp:include page="header.jsp" />
 	<div class="container-md py-4">
 	
-	<form action="/reference-java-web/email_change" method="post" class="mt-5">
+	<form action="${pageContext.request.contextPath}/email_change" method="post" class="mt-5">
 		<div class="d-flex flex-column w-75 mx-auto">
 		    <label for="new_email" class="form-label">新しいメールアドレス</label> 
 		    <input id="new_email" name="new_email" type="email" class="form-control" required="">
