@@ -274,4 +274,31 @@ public class User_requestsDao {
 		}
 		
 	}
+
+	/**
+	 * user_requestsテーブルから
+	 * user_idをキーにレコードを削除
+	 * @param user_id
+	 * @return 削除されたレコード数
+	 */
+	public static int deleteUserRequests(String user_id) {
+		String sql = "DELETE FROM user_requests WHERE user_id = ?";
+		try {
+			Class.forName(FOR_NAME);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try (
+				Connection con = DriverManager.getConnection(URL, USER, PASS);
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, user_id);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.err.println("Error occurred while deleting user_requests: " 
+								+ e.getMessage());
+			e.printStackTrace();
+			return 0;
+		}
+		
+	}
 }
