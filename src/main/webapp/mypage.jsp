@@ -15,15 +15,14 @@
 		</c:if>
 		<div>
 			<ul class="list-group mt-4">
-				<li class="list-group-item d-flex justify-content-center"><a
-					class="btn btn-primary" href="email_change.jsp" role="button">Email変更</a></li>
-
-				<li class="list-group-item d-flex justify-content-center"><a
-					class="btn btn-primary" href="password_change.jsp" role="button">Password変更</a></li>
+				<li class="list-group-item d-flex justify-content-center">
+				<a class="btn btn-primary" href="email_change.jsp" role="button">Email変更</a></li>
 
 				<li class="list-group-item d-flex justify-content-center">
-					<button name="button" value="delete account" class="btn btn-danger">退会</button>
-				</li>
+				<a class="btn btn-primary" href="password_change.jsp" role="button">Password変更</a></li>
+
+				<li class="list-group-item d-flex justify-content-center">
+				<a class="btn btn-danger" href="account_del.jsp" role="button">退会</a></li>
 			</ul>
 		</div>
 	</div>
