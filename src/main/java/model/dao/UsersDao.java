@@ -50,7 +50,6 @@ public class UsersDao {
 	            entity.setHashed_password(rs.getString("hashed_password")); 
 	            entity.setSalt(rs.getString("salt"));
 	            entity.setReg_date(rs.getDate("reg_date").toLocalDate());
-	            entity.setToken(rs.getString("token"));
 	            return entity;
 	        }
 		} catch (Exception e) {
@@ -82,7 +81,6 @@ public class UsersDao {
 				entity.setHashed_password(rs.getString("hashed_password"));
 				entity.setSalt(rs.getString("salt"));
 				entity.setReg_date(rs.getDate("reg_date").toLocalDate());
-				entity.setToken(rs.getString("token"));
 				return entity;
 			}
 		} catch (Exception e) {
