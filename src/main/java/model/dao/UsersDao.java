@@ -17,6 +17,13 @@ public class UsersDao {
 	private static final String PASS = bundle.getString("dbPASS");
 	private static final String FOR_NAME = bundle.getString("FOR_NAME");
 	
+	static {
+        try {
+            Class.forName(FOR_NAME);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	/**
 	 * emailをキーにentityを返す
@@ -28,11 +35,7 @@ public class UsersDao {
 		String sql =  "SELECT *\n"
 					+ "FROM users\n"
 					+ "WHERE email = ?\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -66,11 +69,6 @@ public class UsersDao {
 		String sql = "SELECT *\n"
 				+ "FROM users\n"
 				+ "WHERE user_id = ?\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -101,11 +99,6 @@ public class UsersDao {
 	public static boolean addEntity(User_requestsEntity entity) {
 		String sql =  "INSERT INTO users (user_id, user_name, email, hashed_password, salt)\n"
                     + "VALUES (?, ?, ?, ?, ?)\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -134,11 +127,6 @@ public class UsersDao {
 	 */
 	public static boolean updateUserName(String userId, String newUserName) {
 		String sql = "UPDATE users SET user_name = ? WHERE user_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -161,11 +149,6 @@ public class UsersDao {
 	 */
 	public static boolean updatePasswordAndSalt(String userId, String newHashedPassword, String newSalt) {
 		String sql = "UPDATE users SET hashed_password = ?, salt = ? WHERE user_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -188,11 +171,6 @@ public class UsersDao {
 	 */
 	public static boolean updateEmail(String userId, String newEmail) {
 		String sql = "UPDATE users SET email = ? WHERE user_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -213,11 +191,6 @@ public class UsersDao {
 	 */
 	public static boolean deleteUser(String user_id) {
 		String sql = "DELETE FROM users WHERE user_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {

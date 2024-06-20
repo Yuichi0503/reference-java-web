@@ -19,6 +19,14 @@ public class FavoritesDao {
 	private static final String USER = bundle.getString("dbUSER");
 	private static final String PASS = bundle.getString("dbPASS");
 	private static final String FOR_NAME = bundle.getString("FOR_NAME");
+	
+	static {
+        try {
+            Class.forName(FOR_NAME);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * お気に入りのトグル処理を行う
@@ -43,11 +51,6 @@ public class FavoritesDao {
 	 */
 	public static boolean isFavorite(String user_id, String sys_id) {
 		String sql = "SELECT * FROM favorites WHERE user_id = ? AND sys_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setString(1, user_id);
@@ -69,11 +72,6 @@ public class FavoritesDao {
 	public static void addFavorite(String userId, ResultSetType bean, int index) {
 		String sql = "INSERT INTO favorites (user_id, sys_id, question, answer, keyword, saved_at) "
 				   + "VALUES (?, ?, ?, ?, ?, NOW())";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 			PreparedStatement pstmt = con.prepareStatement(sql);
 				
@@ -96,11 +94,6 @@ public class FavoritesDao {
 	 */
 	public static void deleteFavorite(String user_id, String sys_id) {
 		String sql = "DELETE FROM favorites WHERE user_id = ? AND sys_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setString(1, user_id);
@@ -156,11 +149,6 @@ public class FavoritesDao {
 	public static List<String> getSysIdListByUserId(String userId) {
 		List<String> sysIdList = new ArrayList<>();
 		String sql = "SELECT sys_id FROM favorites WHERE user_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setString(1, userId);

@@ -16,6 +16,14 @@ public class User_requestsDao {
 	private static final String PASS = bundle.getString("dbPASS");
 	private static final String FOR_NAME = bundle.getString("FOR_NAME");
 	
+	static {
+        try {
+            Class.forName(FOR_NAME);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+	
 	/**
 	 * entityをDBに追加
 	 * @param entity
@@ -26,11 +34,6 @@ public class User_requestsDao {
 				+ ", hashed_password, salt, token, expiry, operation_type"
 				+ ", new_email, new_hashed_password, new_salt, reg_date)\n"
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -69,11 +72,6 @@ public class User_requestsDao {
 		String sql =  "SELECT *\n"
 					+ "FROM user_requests\n"
 					+ "WHERE token = ?\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -113,11 +111,6 @@ public class User_requestsDao {
 		String sql =  "SELECT *\n"
 					+ "FROM user_requests\n"
 					+ "WHERE email = ?\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -156,11 +149,6 @@ public class User_requestsDao {
 		String sql = "SELECT user_id\n"
 				+ "FROM user_requests\n"
 				+ "WHERE token = ?\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -185,11 +173,6 @@ public class User_requestsDao {
 		String sql = "SELECT operation_type\n"
 				+ "FROM user_requests\n"
 				+ "WHERE token = ?\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -215,11 +198,6 @@ public class User_requestsDao {
 		String sql = "SELECT expiry\n"
 				+ "FROM user_requests\n"
 				+ "WHERE token = ?\n";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				//この中にcloseすべきものを書く(pstmtがcloseされる時、rsもcloseされます)
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
@@ -241,11 +219,6 @@ public class User_requestsDao {
 	 */
 	public static void deleteByToken(String token) {
 		String sql = "DELETE FROM user_requests WHERE token = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -258,11 +231,6 @@ public class User_requestsDao {
 
 	public static void deleteByUserIdAndOperationType(String user_id, String operation_type) {
 		String sql = "DELETE FROM user_requests WHERE user_id = ? AND operation_type = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -283,11 +251,6 @@ public class User_requestsDao {
 	 */
 	public static int deleteUserRequests(String user_id) {
 		String sql = "DELETE FROM user_requests WHERE user_id = ?";
-		try {
-			Class.forName(FOR_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		try (
 				Connection con = DriverManager.getConnection(URL, USER, PASS);
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
