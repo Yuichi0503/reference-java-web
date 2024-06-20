@@ -15,7 +15,7 @@
 <body>
 
 
-	<form action="/reference-java-web/signup" method="post">
+	<form action="${pageContext.request.contextPath}/signup" method="post">
 		<h2>Sign Up</h2>
 		<c:if test="${msg != null}">
 			<div class="alert alert-info mt-2 text-center" id="msg">${msg}</div>

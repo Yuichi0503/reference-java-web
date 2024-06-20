@@ -15,18 +15,18 @@
 					<li class="nav-item"><a class="nav-link" href="index.jsp">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="mypage.jsp">マイページ</a></li>
 					<li class="nav-item">
-						<form action="/reference-java-web/favlist" method="post">
+						<form action="${pageContext.request.contextPath}/favlist" method="post">
 							<button type="submit" class="nav-link btn-link">お気に入り</button>
 						</form>
 					</li>
 					<li class="nav-item">
-						<form action="/reference-java-web/logout" method="post">
+						<form action="${pageContext.request.contextPath}/logout" method="post">
 							<button type="submit" class="nav-link btn-link">ログアウト</button>
 						</form>
 					</li>
 				</ul>
 				<form class="d-flex" role="search"
-					action="/reference-java-web/search">
+					action="${pageContext.request.contextPath}/search">
 					<input class="form-control me-2" type="search" placeholder="Search"
 						aria-label="Search" name="searchText">
 					<button class="btn btn-success" type="submit">Search</button>
