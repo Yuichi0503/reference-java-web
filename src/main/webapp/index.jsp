@@ -18,7 +18,7 @@
 			<input type="hidden" name="page" value="1"/>
 		</div>		
 	</form>
-	<form action="" class="my-5 d-flex justify-content-center">
+	<form action="${pageContext.request.contextPath}/random_search" class="my-5 d-flex justify-content-center">
 		<button type="submit" class="btn btn-secondary">ランダム検索</button>
 	</form>
 		<script
