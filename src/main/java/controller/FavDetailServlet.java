@@ -12,16 +12,16 @@ import model.ReferenceApi;
 import model.dao.FavoritesDao;
 
 /**
- * Servlet implementation class RandomSearchServlet
+ * Servlet implementation class FavDetailServlet
  */
-@WebServlet("/random_search")
-public class RandomSearchServlet extends HttpServlet {
+@WebServlet("/fav_detail")
+public class FavDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RandomSearchServlet() {
+    public FavDetailServlet() {
         super();
     }
 
@@ -29,26 +29,25 @@ public class RandomSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//呼び出し元からuser_id,sys_idを受け取る
 		var session = request.getSession();
+		var user_id = (String)session.getAttribute("user_id");
+		var sys_id = request.getParameter("sys_id");
 		
-		//セッションからsys_idのリストを取得
-        @SuppressWarnings("unchecked")
-		List<String> favoriteSysIds = (List<String>) session.getAttribute("favoritesSysIds");
-		if (favoriteSysIds == null) {
-			// ユーザーIDを元にお気に入りのsys_idのリストを取得
-			String user_id = (String) session.getAttribute("user_id");
-			favoriteSysIds = FavoritesDao.getSysIdListByUserId(user_id);
-		}
-		// セッションスコープに保存
+		//sys_idを元にbeanを取得
+		var api = new ReferenceApi();
+		var bean = api.getBeanBySys_id(sys_id);
+		
+		//daoを呼び出しDBに登録/削除
+		FavoritesDao.toggleFavorite(user_id, bean, 0);
+
+		// お気に入りのsys_idリストを取得
+		List<String> favoriteSysIds = FavoritesDao.getSysIdListByUserId(user_id);
+		//セッションスコープに保存
 		session.setAttribute("favoriteSysIds", favoriteSysIds);
-		
-		//apiを使ってランダムなBeanを取得
-		ReferenceApi api = new ReferenceApi();
-		try {
-			request.setAttribute("rsBean", api.getRandomBean());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		//登録/削除が成功したらdetail.jspに戻る
+		request.setAttribute("rsBean", bean);
 		request.setAttribute("index", 0);
 		request.getRequestDispatcher("/detail.jsp").forward(request, response);
 	}
