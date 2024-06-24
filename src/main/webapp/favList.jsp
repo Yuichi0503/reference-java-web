@@ -19,8 +19,13 @@
 				お気に入り登録されたデータはありません。</div>
 		</c:if>
 		<c:if test="${!favList.isEmpty()}">
-			<form action="${pageContext.request.contextPath}/favlist" method="post">
-				<input type="text" name="searchText" class="form-control" />
+			<form action="${pageContext.request.contextPath}/favlist" method="post" class="row justify-content-md-center">
+				<div class="col-sm-10">
+					<input type="text" name="searchText" class="form-control" placeholder="お気に入りの検索" />
+				</div>
+				<div class="col-sm-1 d-flex justify-content-center">
+					<button class="btn btn-success " type="submit">Search</button>
+				</div>
 			</form>
 		</c:if>
 		<c:forEach var="rec" items="${favList}">
