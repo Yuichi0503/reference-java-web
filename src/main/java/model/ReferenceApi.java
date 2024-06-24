@@ -3,6 +3,8 @@ package model;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.codec.net.URLCodec;
 
@@ -56,6 +58,42 @@ public class ReferenceApi {
 		    e.printStackTrace();
 		}
 		return null;
+	}
+	public ResultSetType getRandomBean() throws UnsupportedEncodingException, IOException{
+		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference";
+		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		getRandomDate().format(formatter);
+		
+		String regDate = "&reg-date_to=" + getRandomDate().format(formatter);
+		
+		String xmlString = getUrlResponse(apiString + regDate + "&results_num=1");
+		
+		try {
+			// JAXBContextインスタンスを作成
+			JAXBContext context = JAXBContext.newInstance(ResultSetType.class);
+			
+			// Unmarshallerオブジェクトを作成
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			
+			// StringReaderを使用してString型のXMLデータからJavaオブジェクトを生成
+			@SuppressWarnings("unchecked")
+			JAXBElement<ResultSetType> jaxbElement = (JAXBElement<ResultSetType>) unmarshaller.unmarshal(new StringReader(xmlString));
+			ResultSetType bean = jaxbElement.getValue();
+			return bean;
+			
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	//2004年3月6日から今日までのランダムな日付を取得(XXXX-XX-XX)形式
+	public LocalDate getRandomDate() {
+		LocalDate start = LocalDate.of(2004, 3, 6);
+		LocalDate end = LocalDate.now();
+		long randomEpochDay = start.toEpochDay() + (long) (Math.random() * (end.toEpochDay() - start.toEpochDay()));
+		return LocalDate.ofEpochDay(randomEpochDay);
 	}
 	
 	
