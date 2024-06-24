@@ -60,14 +60,14 @@ public class ReferenceApi {
 		return null;
 	}
 	public ResultSetType getRandomBean() throws UnsupportedEncodingException, IOException{
-		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference";
+		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference&sort=reg-date&sort_order=desc&results_num=1";
 		
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		getRandomDate().format(formatter);
 		
 		String regDate = "&reg-date_to=" + getRandomDate().format(formatter);
 		
-		String xmlString = getUrlResponse(apiString + regDate + "&results_num=1");
+		String xmlString = getUrlResponse(apiString + regDate);
 		
 		try {
 			// JAXBContextインスタンスを作成
