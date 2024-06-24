@@ -19,7 +19,7 @@
 		</div>
 		<div class="row justify-content-end">
 			<form action="${pageContext.request.contextPath}/random_search" class="col-auto">
-				<button type="submit" class="btn btn-secondary">ランダム検索</button>
+				<button type="submit" class="btn btn-secondary" style="background-color:#265f92">ランダム検索</button>
 			</form>
 			<form action="${pageContext.request.contextPath}/fav_detail" class="col-auto">
 				<c:choose>

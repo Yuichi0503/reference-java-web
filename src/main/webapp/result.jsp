@@ -107,8 +107,8 @@
 							</p>
 							<div class="button_group d-flex justify-content-center gap-3">
 								<form action="${pageContext.request.contextPath}/detail">
-									<button class="btn btn-primary" type="submit" name="index"
-										value="${status.index}" class="btn">詳細ページ</button>
+									<button class="btn" type="submit" name="index"
+										value="${status.index}" style="background-color:#33CC99">詳細ページ</button>
 									<input type="hidden" name="searchText" value="${searchText}">
 									<input type="hidden" name="page" value="${page}">
 								</form>
