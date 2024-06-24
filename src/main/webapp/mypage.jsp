@@ -16,10 +16,10 @@
 		<div>
 			<ul class="list-group mt-4 w-75 mx-auto">
 				<li class="list-group-item d-flex justify-content-center">
-				<a class="btn btn-primary" href="email_change.jsp" role="button">Email変更</a></li>
+				<a class="btn" href="email_change.jsp" role="button" style="background-color:#FFCC33">Email変更</a></li>
 
 				<li class="list-group-item d-flex justify-content-center">
-				<a class="btn btn-primary" href="password_change.jsp" role="button">Password変更</a></li>
+				<a class="btn" href="password_change.jsp" role="button" style="background-color:#FFCC33">Password変更</a></li>
 
 				<li class="list-group-item d-flex justify-content-center">
 				<a class="btn btn-danger" href="account_del.jsp" role="button">退会</a></li>

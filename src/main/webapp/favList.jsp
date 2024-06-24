@@ -46,11 +46,11 @@
 						<c:set var="answer" value="${fn:replace(answer, '。<br/>」', '。」')}" />
 						<p class="card-text">${answer}</p>
 						<form action="${pageContext.request.contextPath}/search" method="post">
-							<button class="btn btn-primary" type="submit">詳細ページ</button>
+							<button class="btn" type="submit" style="background-color:#33CC99">詳細ページ</button>
 							<input type="hidden" name="sys_id" value="${rec.sys_id}" />
 							<input type="hidden" name="detail" value="true" />
 						</form>
-						<form action="${pageContext.request.contextPath}/favlist" method="post">
+						<form action="${pageContext.request.contextPath}/favlist" method="post" class="mt-3">
 							<button class="btn btn-warning" type="submit">お気に入り解除</button>
 							<input type="hidden" name="sys_id" value="${rec.sys_id}" /> <input
 								type="hidden" name="favDelete" value="1" />
