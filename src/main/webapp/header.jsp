@@ -25,6 +25,9 @@
 						</form>
 					</li>
 				</ul>
+				<form action="${pageContext.request.contextPath}/random_search" class="me-2">
+					<button type="submit" class="btn btn-secondary" style="background-color:#265f92">ランダム検索</button>
+				</form>
 				<form class="d-flex" role="search"
 					action="${pageContext.request.contextPath}/search">
 					<input class="form-control me-2" type="search" placeholder="Search"

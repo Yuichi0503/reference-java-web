@@ -14,12 +14,12 @@
 	<form action="${pageContext.request.contextPath}/search" class="mt-5">
 		<div class="d-flex justify-content-center flex-wrap gap-3">
 			<input type="search" class="w-50 form-control" name="searchText" placeholder="キーワード検索" required="required"/>
-			<button type="submit" class="btn btn-secondary">検索</button>
+			<button type="submit" class="btn btn-success">検索</button>
 			<input type="hidden" name="page" value="1"/>
 		</div>		
 	</form>
 	<form action="${pageContext.request.contextPath}/random_search" class="my-5 d-flex justify-content-center">
-		<button type="submit" class="btn btn-secondary">ランダム検索</button>
+		<button type="submit" class="btn btn-secondary" style="background-color:#265f92">ランダム検索</button>
 	</form>
 		<script
 			src="https://embeds.rss2html.net/embed.js?url=https%3A%2F%2Fcrd.ndl.go.jp
