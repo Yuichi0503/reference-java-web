@@ -11,11 +11,35 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<c:set var="data" value="${rsBean.result[index].reference}"></c:set>
+	<c:set var="data" value="${rsBean.getReference(index)}"></c:set>
 	
 	<div class="container-md py-4">
 		<div class="">
 			<h2 class="col mt-5 text-center">レファレンス事例詳細</h2>
+		</div>
+		<div class="row justify-content-end">
+			<form action="${pageContext.request.contextPath}/random_search" class="col-auto">
+				<button type="submit" class="btn btn-secondary">ランダム検索</button>
+			</form>
+			<form action="${pageContext.request.contextPath}/fav_detail" class="col-auto">
+				<c:choose>
+					<c:when
+						test="${favoriteSysIds.contains(data.getSysId() )}">
+						<!-- お気に入りに追加されている場合のボタン -->
+						<button class="btn btn-warning" type="submit">
+							<i class="bi bi-bookmark-check"></i>お気に入り済み
+						</button>
+					</c:when>
+					<c:otherwise>
+						<!-- お気に入りに追加されていない場合のボタン -->
+						<button class="btn btn-warning" type="submit">
+							<i class="bi bi-bookmark"></i>お気に入り
+						</button>
+					</c:otherwise>
+				</c:choose>
+				<input type="hidden" name="sys_id"
+					value="${data.getSysId()}">
+			</form>
 		</div>
 		<div class="card mt-5">
 			<fmt:parseDate var="lstDate" 
