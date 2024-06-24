@@ -37,6 +37,9 @@ public class ReferenceApi {
 		searchText = codec.encode(searchText, "UTF-8");
 		
 		searchText = "&query=question%20any%20" + searchText;
+		if(!page.equals("1")) {//TODO
+			page = Integer.toString(Integer.parseInt(page) * Integer.parseInt(RESULTS_NUM));
+		}
 		page = "&results_get_position=" + page;
 		
 		String xmlString = getUrlResponse(apiString + searchText + page + RESULTS_NUM);
