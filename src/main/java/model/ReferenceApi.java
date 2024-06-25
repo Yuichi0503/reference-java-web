@@ -20,7 +20,7 @@ import okhttp3.Response;
 public class ReferenceApi {
 	final static OkHttpClient client = new OkHttpClient();
 	final static URLCodec codec = new URLCodec("UTF-8");
-	final String RESULTS_NUM = "&results_num=" + "25";
+	final String RESULTS_NUM = "25";
 	
 	
 	/**
@@ -32,14 +32,18 @@ public class ReferenceApi {
      * @throws IOException HTTPリクエストのエラーが発生した場合にスローされます。
      */
 	public ResultSetType getResultSetPageBean(String searchText, String page) throws UnsupportedEncodingException, IOException{
-		String apiString = "https://crd.ndl.go.jp/api/refsearch?type=reference";
-		
+		int pageInt = Integer.parseInt(page);
 		searchText = codec.encode(searchText, "UTF-8");
 		
-		searchText = "&query=question%20any%20" + searchText;
-		page = "&results_get_position=" + page;
+		String position ;
 		
-		String xmlString = getUrlResponse(apiString + searchText + page + RESULTS_NUM);
+		position = Integer.toString((pageInt - 1) * Integer.parseInt(RESULTS_NUM) + 1);
+		
+		String xmlString = getUrlResponse(
+						  "https://crd.ndl.go.jp/api/refsearch?type=reference" 
+						+ "&query=question%20any%20" + searchText 
+						+ "&results_get_position=" + position
+						+ "&results_num=" + RESULTS_NUM);
 		
 		try {
 		    // JAXBContextインスタンスを作成
