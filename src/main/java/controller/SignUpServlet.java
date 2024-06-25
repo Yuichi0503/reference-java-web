@@ -64,6 +64,7 @@ public class SignUpServlet extends HttpServlet {
 		    request.getRequestDispatcher("/login.jsp").forward(request, response);
 		} catch (Exception e) {
 		    e.printStackTrace();
+			User_requestsDao.deleteByToken(user.getToken());
 		    handleError(request, response, "認証メールの送信に失敗しました");
 		}
 		
