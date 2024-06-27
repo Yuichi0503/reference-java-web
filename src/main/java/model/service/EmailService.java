@@ -42,33 +42,41 @@ public class EmailService {
 	 * @return GmailのAPIクライアント
 	 * @throws Exception 例外
 	 */
-    public static Gmail getGmail(ServletContext servletContext) throws Exception {
-        HttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
-        JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-        
-        // OAuth2.0 クライアントIDで取得したJSONファイルのパスを指定
-        String jsonFilePath = servletContext.getRealPath("/WEB-INF/client_secret.json");
 
-        try(Reader reader = new InputStreamReader(new FileInputStream(jsonFilePath))){
-            GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory,reader);
 
-            //「スコープ」は、実行するAPIによって異なるので適時に変更
-            //途中でスコープを変更した場合は再度のOAuth同意が必要
-            //「認証情報を保存するフォルダパス」にあるファイルを削除するか、パスを変える
-            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    transport, jsonFactory, clientSecrets, 
-                    Arrays.asList("https://www.googleapis.com/auth/gmail.send"))
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(credentialsFolderPath)))
-                .build();
-            
-            LocalServerReceiver receiver = new LocalServerReceiver.Builder().build();
-            Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-            
-            return new Gmail.Builder(transport, jsonFactory, credential)
-            		.setApplicationName("認証メール自動送信APP")
-            		.build();
-        }
-    }
+	public static Gmail getGmail(ServletContext servletContext) throws Exception {
+		HttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
+		JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+
+		String jsonFilePath = servletContext.getRealPath("/WEB-INF/client_secret.json");
+
+		try (Reader reader = new InputStreamReader(new FileInputStream(jsonFilePath))) {
+			GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, reader);
+
+			FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(new java.io.File(credentialsFolderPath));
+
+			GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+					transport, jsonFactory, clientSecrets,
+					Arrays.asList("https://www.googleapis.com/auth/gmail.send"))
+							.setDataStoreFactory(dataStoreFactory)
+							.build();
+
+			LocalServerReceiver receiver = new LocalServerReceiver.Builder().build();
+			Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+
+			// トークンの有効期限が5分以下になったら新しいトークンを取得
+			if (credential.getExpiresInSeconds() <= 300) {
+				// トークンの有効期限が切れている場合、既存の認証情報を削除
+				dataStoreFactory.getDataStore("StoredCredential").delete("user");
+				// 再度認証フローを実行して新しいトークンを取得
+				credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+			}
+
+			return new Gmail.Builder(transport, jsonFactory, credential)
+					.setApplicationName("認証メール自動送信APP")
+					.build();
+		}
+	}
     
     /**
      * MimeMessageを作成します。
