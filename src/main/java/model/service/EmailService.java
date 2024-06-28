@@ -59,17 +59,15 @@ public class EmailService {
 					transport, jsonFactory, clientSecrets,
 					Arrays.asList("https://www.googleapis.com/auth/gmail.send"))
 							.setDataStoreFactory(dataStoreFactory)
+							.setAccessType("offline")
 							.build();
 
 			LocalServerReceiver receiver = new LocalServerReceiver.Builder().build();
 			Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
-			// トークンの有効期限が5分以下になったら新しいトークンを取得
+			// トークンの有効期限が5分以下の時はリフレッシュトークンを利用して新しいアクセストークンを取得
 			if (credential.getExpiresInSeconds() <= 300) {
-				// トークンの有効期限が切れている場合、既存の認証情報を削除
-				dataStoreFactory.getDataStore("StoredCredential").delete("user");
-				// 再度認証フローを実行して新しいトークンを取得
-				credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+			    credential.refreshToken();
 			}
 
 			return new Gmail.Builder(transport, jsonFactory, credential)
