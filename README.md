@@ -1,5 +1,5 @@
 # サイト概要
-レファレンス共同データベースのWebApiを利用した、
+レファレンス共同データベースのWebApiを利用した、  
 図書館レファレンスデータの取得保存Webアプリケーション  
 [スライド](https://www.canva.com/design/DAGJHpZWogY/ipToCdvjvcCGcxFAimMI2A/view?utm_content=DAGJHpZWogY&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 # 主な機能
