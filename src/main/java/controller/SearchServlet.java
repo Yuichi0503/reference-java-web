@@ -86,7 +86,7 @@ public class SearchServlet extends HttpServlet implements Servlet {
             request.getRequestDispatcher("/result.jsp").forward(request, response);
         }
         else if (rsBean.getResultsCd().equals("1")) {
-            request.setAttribute("errItem", rsBean.getErrList().getErrItem());
+            request.setAttribute("msg", rsBean.getErrList().getErrItem());
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }
