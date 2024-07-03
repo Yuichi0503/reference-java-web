@@ -48,7 +48,6 @@ public class FavServlet extends HttpServlet {
 		
 		request.setAttribute("id", index);
 		request.getRequestDispatcher("/search").forward(request, response);
-		//TODO 登録/削除が失敗したらエラーページに飛ばす
 		
 	}
 
