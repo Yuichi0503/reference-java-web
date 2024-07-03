@@ -145,7 +145,11 @@ public class FavoritesDao {
 	        return favorites;
 	    }
 	 
-	//user_idを元にsys_idのリストを取得する
+	/**
+	 * user_idを元にお気に入りのsys_idのリストを取得する
+	 * @param userId
+	 * @return sys_idのリスト
+	 */
 	public static List<String> getSysIdListByUserId(String userId) {
 		List<String> sysIdList = new ArrayList<>();
 		String sql = "SELECT sys_id FROM favorites WHERE user_id = ?";
