@@ -56,13 +56,13 @@ public class SearchServlet extends HttpServlet implements Servlet {
 			//detailがあれば詳細ページに遷移
 			String detail = request.getParameter("detail");
 			if(detail != null && detail.equals("true")) {
-				goDetailPageBySysId(request, response, session, request.getParameter("sys_id"));
+				goDetailPageBySysId(request, response);
 			}
 			//detailがなければ検索結果を表示
 			else if (null == session.getAttribute(searchText + page)) {
-				handleNewSearch(request, response, session, RESULT_NUM, searchText, page);
+				handleNewSearch(request, response, RESULT_NUM);
 			} else {
-				handleExistingSearch(request, response, session, RESULT_NUM, searchText, page);
+				handleExistingSearch(request, response, RESULT_NUM);
 
 			}
 			
@@ -72,28 +72,63 @@ public class SearchServlet extends HttpServlet implements Servlet {
     }
 
 
+    /**
+     * レファ協APIから検索結果を取得し、セッションスコープに保存後、フォワード
+     * @param request
+     * @param response
+     * @param RESULT_NUM
+     * @throws ServletException
+     * @throws IOException
+     */
     private void handleNewSearch(HttpServletRequest request, HttpServletResponse response
-    		, HttpSession session, int RESULT_NUM, String searchText
-    		, String page) throws ServletException, IOException {
+    		, int RESULT_NUM) throws ServletException, IOException {
+    	var session = request.getSession();
         var refApi = new ReferenceApi();
+        String searchText = request.getParameter("searchText");
+        String page = request.getParameter("page");
         var rsBean = refApi.getResultSetPageBean(searchText, page);
+        
+        //成功時
         if (rsBean.getResultsCd().equals("0")) {
             session.setAttribute(searchText + page, rsBean);
             int hit_num = Integer.parseInt(rsBean.getHitNum());
             int totalPages =(hit_num + RESULT_NUM - 1) /RESULT_NUM;
+            
             session.setAttribute(searchText + "TotalPages", totalPages);
-            setRequestAttributes(request, RESULT_NUM, searchText, page, rsBean);
-            request.getRequestDispatcher("/result.jsp").forward(request, response);
+            request.setAttribute("stringSearchTextTotalPages", searchText + "TotalPages");
+            request.setAttribute("RESULT_NUM", RESULT_NUM);
+            request.setAttribute("searchText", searchText);
+            request.setAttribute("page", Integer.parseInt(page));
+            request.setAttribute("rsBean", rsBean);            request.getRequestDispatcher("/result.jsp").forward(request, response);
         }
+        //エラー時
         else if (rsBean.getResultsCd().equals("1")) {
             request.setAttribute("msg", rsBean.getErrList().getErrItem());
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }
 
-    private void handleExistingSearch(HttpServletRequest request, HttpServletResponse response, HttpSession session, int RESULT_NUM, String searchText, String page) throws ServletException, IOException {
+    /**
+     * セッションスコープに保存された検索結果を取得し、フォワード
+     * @param request
+     * @param response
+     * @param RESULT_NUM
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void handleExistingSearch(HttpServletRequest request, HttpServletResponse response, int RESULT_NUM) throws ServletException, IOException {
+    	var session = request.getSession();
+    	String searchText = request.getParameter("searchText");
+        String page = request.getParameter("page");
+        
         var rsBean = (ResultSetType)session.getAttribute(searchText + page);
-        setRequestAttributes(request, RESULT_NUM, searchText, page, rsBean);
+        request.setAttribute("stringSearchTextTotalPages", searchText + "TotalPages");
+        request.setAttribute("RESULT_NUM", RESULT_NUM);
+        request.setAttribute("searchText", searchText);
+        request.setAttribute("page", Integer.parseInt(page));
+        request.setAttribute("rsBean", rsBean);
+        
+        //お気に入り保存した後、元のページ位置に戻るための処理
         String id = request.getAttribute("id") != null ? request.getAttribute("id").toString() : null;
         if (id != null) {
             request.setAttribute("id", id);
@@ -101,20 +136,20 @@ public class SearchServlet extends HttpServlet implements Servlet {
         request.getRequestDispatcher("/result.jsp").forward(request, response);
     }
 
-    private void setRequestAttributes(HttpServletRequest request, int RESULT_NUM, String searchText, String page, ResultSetType rsBean) {
-        request.setAttribute("stringSearchTextTotalPages", searchText + "TotalPages");
-        request.setAttribute("RESULT_NUM", RESULT_NUM);
-        request.setAttribute("searchText", searchText);
-        request.setAttribute("page", Integer.parseInt(page));
-        request.setAttribute("rsBean", rsBean);
-    }
-    
-    //sys_idを元にbeanを取得indexは0でそれぞれリクエストスコープにセット、detail.jspに遷移
+	/**
+	 * sys_idを元にbeanを取得し、リクエストスコープにセット後、detail.jspに遷移
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void goDetailPageBySysId(HttpServletRequest request
-			, HttpServletResponse response, HttpSession session,
-			String sys_id) throws ServletException, IOException {
+			, HttpServletResponse response) throws ServletException, IOException {
+		
 		var refApi = new ReferenceApi();
+		var sys_id = request.getParameter("sys_id");
 		var bean = refApi.getBeanBySys_id(sys_id);
+		
 		request.setAttribute("rsBean", bean);
 		request.setAttribute("index", 0);
 		request.getRequestDispatcher("/detail.jsp").forward(request, response);
