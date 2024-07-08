@@ -46,5 +46,5 @@
 	
 
 # その他ドキュメント
-[URL](https://onedrive.live.com/personal/5f191bc732c73af4/_layouts/15/doc2.aspx?resid=8297d200-4d9b-476c-b203-ed8ae6ab01e5&cid=5f191bc732c73af4&ct=1716525039995&wdOrigin=OFFICECOM-WEB.START.UPLOAD&wdPreviousSessionSrc=HarmonyWeb&wdPreviousSession=1202191a-e18f-4d9a-9386-35394108ce06)
+[URL](https://1drv.ms/x/c/5f191bc732c73af4/EQDSl4KbTWxHsgPtiuarAeUBcdIlaDj7ZotrYrRHMCfXGA?e=yAFASO)
 
